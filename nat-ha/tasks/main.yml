@@ -1,0 +1,32 @@
+---
+# tasks file for nat-ha
+
+- name: Install nat-monitor daemon script
+  template:
+    src: 'nat-monitor.j2'
+    dest: '{{ nat_ha_script_path }}/nat-monitor'
+    mode: '0700'
+  notify: 
+    - Restart nat-monitor
+  tags: [nat-ha]
+
+- name: Create nat-monitor init script
+  copy:
+    src: 'nat-monitor-init'
+    dest: '/etc/init.d/nat-monitor'
+    mode: '0755'
+  tags: [nat-ha]
+
+- name: Rotate nat-monitor log file
+  copy:
+    src: 'nat-monitor-log'
+    dest: '/etc/logrotate.d/nat-monitor'
+    mode: '0644'
+  tags: [nat-ha]
+
+- name: Ensure nat-monitor is started and enabled on boot
+  service:
+    name: 'nat-monitor'
+    state: 'started'
+    enabled: 'yes'
+  tags: [nat-ha,services]

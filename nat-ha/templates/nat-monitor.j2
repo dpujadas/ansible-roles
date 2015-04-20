@@ -1,0 +1,68 @@
+#!/bin/bash
+# This script will monitor another NAT instance and take over its routes
+# if communication with the other instance fails
+
+AWS="{{ nat_ha_aws_bin }}"
+# NAT instance variables
+# Other instance's IP to ping and route to grab if other node goes down
+NAT_ID="{{ nat_ha_nat_id }}"
+NAT_RT_ID="{{ nat_ha_nat_rt_id }}"
+# My route to grab when I come back up
+My_RT_ID="{{ nat_ha_my_rt_id }}"
+
+# Health Check variables
+Num_Pings={{ nat_ha_num_pings }}
+Ping_Timeout={{ nat_ha_ping_timeout }}
+Wait_Between_Pings={{ nat_ha_wait_between_pings }}
+Wait_for_Instance_Stop={{ nat_ha_wait_for_instance_stop }}
+Wait_for_Instance_Start={{ nat_ha_wait_for_instance_start }}
+
+# Get this instance's ID
+Instance_ID=`/usr/bin/curl --silent http://169.254.169.254/latest/meta-data/instance-id`
+# Get the other NAT instance's IP
+NAT_IP=`${AWS} ec2 describe-instances --instance-ids ${NAT_ID} --output text --query 'Reservations[*].Instances[*].PrivateIpAddress'`
+
+echo `date` "-- Starting NAT monitor"
+echo `date` "-- Adding this instance to ${My_RT_ID} default route on start"
+${AWS} ec2 replace-route --route-table-id ${My_RT_ID} --destination-cidr-block 0.0.0.0/0 --instance-id ${Instance_ID}
+# If replace-route failed, then the route might not exist and may need to be created instead
+if [ "$?" != "0" ]; then
+    ${AWS} ec2 create-route --route-table-id ${My_RT_ID} --destination-cidr-block 0.0.0.0/0 --instance-id ${Instance_ID}
+fi
+
+while [ . ]; do
+  # Check health of other NAT instance
+  pingresult=`ping -c ${Num_Pings} -W ${Ping_Timeout} ${NAT_IP} | grep time= | wc -l`
+  # Check to see if any of the health checks succeeded, if not
+  if [ "${pingresult}" == "0" ]; then
+    # Set HEALTHY variables to unhealthy (0)
+    ROUTE_HEALTHY=0
+    NAT_HEALTHY=0
+    STOPPING_NAT=0
+    while [ "${NAT_HEALTHY}" == "0" ]; do
+      # NAT instance is unhealthy, loop while we try to fix it
+      if [ "${ROUTE_HEALTHY}" == "0" ]; then
+        echo `date` "-- Other NAT heartbeat failed, taking over ${NAT_RT_ID} default route"
+        ${AWS} ec2 replace-route --route-table-id ${NAT_RT_ID} --destination-cidr-block 0.0.0.0/0 --instance-id ${Instance_ID}
+        ROUTE_HEALTHY=1
+      fi
+      # Check NAT state to see if we should stop it or start it again
+      NAT_STATE=`${AWS} ec2 describe-instances --instance-ids ${NAT_ID} --output text --query 'Reservations[*].Instances[*].State.Name'`
+      if [ "${NAT_STATE}" == "stopped" ]; then
+        echo `date` "-- Other NAT instance stopped, starting it back up"
+        ${AWS} ec2 start-instances --instance-ids ${NAT_ID}
+        NAT_HEALTHY=1
+        sleep ${Wait_for_Instance_Start}
+      else
+        if [ "${STOPPING_NAT}" == "0" ]; then
+          echo `date` "-- Other NAT instance ${NAT_STATE}, attempting to stop for reboot"
+          ${AWS} ec2 stop-instances --instance-ids ${NAT_ID}
+          STOPPING_NAT=1
+        fi
+        sleep ${Wait_for_Instance_Stop}
+      fi
+    done
+  else
+    sleep ${Wait_Between_Pings}
+  fi
+done

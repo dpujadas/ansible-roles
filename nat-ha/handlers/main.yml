@@ -1,0 +1,7 @@
+---
+# handlers file for nat-ha
+
+- name: Restart nat-monitor
+  service:
+    name: 'nat-monitor'
+    state: 'restarted'

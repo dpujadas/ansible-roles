@@ -1,0 +1,10 @@
+---
+# defaults file for nat-ha
+
+nat_ha_aws_bin: '/usr/local/bin/aws'
+nat_ha_script_path: '/usr/local/bin'
+nat_ha_num_pings: '5'
+nat_ha_ping_timeout: '1'
+nat_ha_wait_between_pings: '30'
+nat_ha_wait_for_instance_stop: '60'
+nat_ha_wait_for_instance_start: '300'
