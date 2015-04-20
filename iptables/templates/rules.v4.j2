@@ -1,0 +1,10 @@
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+{% for item in iptables_dnat_rules %}
+-A PREROUTING -p tcp -m tcp --dport {{ item.dport }} -j DNAT --to-destination {{ item.to_destination }}
+{% endfor %}
+-A POSTROUTING -s {{ iptables_masq_source }} -o eth0 -j MASQUERADE
+COMMIT

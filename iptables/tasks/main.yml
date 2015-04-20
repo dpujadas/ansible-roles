@@ -1,0 +1,35 @@
+---
+# tasks file for iptables
+
+- name: Set some sysctl values
+  sysctl:
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    sysctl_set: 'yes'
+    state: 'present'
+    reload: 'yes'
+  with_items:
+    - { name: 'net.ipv4.ip_forward', value: '1' }
+    - { name: 'net.ipv4.conf.eth0.send_redirects', value: '0' }
+  tags: [iptables,sysctl]
+
+- name: Install the iptables-persistent package
+  apt: 
+    name: 'iptables-persistent'
+    state: 'installed'
+  tags: [iptables,packages]
+
+- name: Set the iptables rules file 
+  template:
+    src: 'rules.v4.j2'
+    dest: '/etc/iptables/rules.v4'
+  notify: 
+   - Restart iptables-persistent
+  tags: [iptables,configuration]
+
+- name: Ensure the iptables service is started and enabled at boot
+  service:
+    name: 'iptables-persistent'
+    state: 'started'
+    enabled: 'yes'
+  tags: [iptables,services]

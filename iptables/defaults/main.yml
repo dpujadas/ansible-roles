@@ -1,0 +1,5 @@
+---
+# defaults file for iptables
+
+iptables_dnat_rules: []
+iptables_masq_source: '10.0.0.0/16'

@@ -1,0 +1,7 @@
+---
+# handlers file for iptables
+
+- name: Restart iptables-persistent
+  service:
+    name: 'iptables-persistent'
+    state: 'restarted'
