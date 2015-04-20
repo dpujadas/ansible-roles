@@ -1,0 +1,27 @@
+---
+# tasks file for initial-setup
+
+- name: Update apt packages
+  apt:
+    update_cache: 'yes'
+    cache_valid_time: '86400'
+  tags: [initial-setup,apt]
+
+- name: Upgrade server
+  apt: 
+    upgrade: 'full'
+  when: initial_setup_full_upgrade
+  tags: [initial-setup,apt]
+
+- name: Install ntp server
+  apt:
+    name: 'ntp'
+    state: 'present'
+  tags: [initial-setup,ntp]
+
+- name: Start the ntp service
+  service:
+    name: 'ntp'
+    state: 'started'
+    enabled: 'yes'
+  tags: [initial-setup,ntp]

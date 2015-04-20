@@ -1,0 +1,4 @@
+---
+# defaults file for initial-setup
+
+initial_setup_full_upgrade: false
