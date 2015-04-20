@@ -1,0 +1,12 @@
+root={{ ssmtp_root }}
+hostname={{ ssmtp_hostname }}
+
+mailhub={{ ssmtp_server }}:{{ ssmtp_port }}
+AuthUser={{ ssmtp_user }}
+AuthPass={{ ssmtp_pass }}
+
+{% if ssmtp_rewrite_domain is defined %}
+rewriteDomain={{ ssmtp_rewrite_domain }}
+{% endif %}
+FromLineOverride={{ ssmtp_from_line_override }}
+UseTLS={{ ssmtp_use_tls }}

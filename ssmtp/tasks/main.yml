@@ -1,0 +1,15 @@
+---
+# tasks file for ssmtp
+
+- name: Install the ssmtp package
+  apt: 
+    name: 'ssmtp'
+    state: 'installed'
+  tags: [ssmtp,packages]
+
+- name: Configure ssmtp
+  template:
+    src: 'ssmtp.conf.j2'
+    dest: '/etc/ssmtp/ssmtp.conf'
+    mode: '0644'
+  tags: [ssmtp,configuration]
