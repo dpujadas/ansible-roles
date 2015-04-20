@@ -1,0 +1,5 @@
+---
+# defaults file for awscli
+
+awscli_user: 'ubuntu'
+awscli_group: 'ubuntu'

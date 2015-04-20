@@ -1,0 +1,41 @@
+---
+# tasks file for awscli
+
+- name: Install pip package
+  apt: 
+    name: 'python-pip'
+    state: 'installed'
+  tags: [awscli,packages]
+
+- name: Pip install awscli
+  pip:
+    name: 'awscli'
+    state: 'latest'
+  tags: [awscli,packages]
+
+- name: Enable tab completion for awscli
+  copy: 
+    src: 'aws-cli.sh'
+    dest: '/etc/profile.d/aws-cli.sh'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  tags: [awscli,configuration]
+
+- name: Create .aws dir under user home for awscli config 
+  file:  
+    path: '~{{ awscli_user }}/.aws'
+    state: 'directory'
+    owner: '{{ awscli_user }}'
+    group: '{{ awscli_group }}'
+    mode: '0755'
+  tags: [awscli,configuration]
+
+- name: Create awscli config file
+  template:
+    src: 'config.j2'
+    dest: '~{{ awscli_user }}/.aws/config'
+    owner: '{{ awscli_user }}'
+    group: '{{ awscli_group }}'
+    mode: '0644'
+  tags: [awscli,configuration]
