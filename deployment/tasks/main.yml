@@ -1,0 +1,46 @@
+---
+# tasks file for deployment
+
+- name: Ensure {{ deployment_root }} exists and belongs to {{ deployment_user }}
+  user:
+    name: '{{ deployment_user }}'
+    group: '{{ deployment_group }}'
+    home: '{{ deployment_root }}'
+    createhome: 'yes'
+    shell: '/bin/bash'
+  tags: [deployment]
+
+- name: Allow {{ deployment_user }} to perform php-fpm restart
+  template:
+    src: 'sudoers.j2'
+    dest: '/etc/sudoers.d/deployment_user'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  when: deployment_use_php_fpm
+  tags: [deployment]
+
+- name: Install some packages
+  apt:
+    name: '{{ item.name }}'
+    state: '{{ item.state }}'
+    update_cache: 'yes'
+  with_items:
+    - { name: 'git', state: 'present' }
+  tags: [deployment,packages]
+
+- name: Install composer
+  get_url:
+    url: 'https://getcomposer.org/composer.phar'
+    dest: '/usr/local/bin/composer'
+    owner: '{{ deployment_user }}'
+    group: '{{ deployment_group }}'
+    mode: '0755'
+  tags: [deployment,packages]
+
+- name: Configure composer
+  shell: su -l {{ deployment_user }} -c "composer config -g github-oauth.github.com {{ deployment_github_token }}"
+  args:
+    creates: '/var/www/.composer/auth.json'
+  when: deployment_github_token is defined
+  tags: [deployment,packages]
