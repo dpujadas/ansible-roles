@@ -1,0 +1,42 @@
+---
+# tasks file for php-fpm
+
+- name: Install ondrej repo for latest PHP packages
+  apt_repository:
+    repo: 'ppa:ondrej/php5'
+  tags: [php-fpm,packages]
+
+- name: Install the php packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items:
+    - php5-cli
+    - php5-fpm
+  tags: [php-fpm,packages]
+
+- name: Install the php modules
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: php_fpm_modules
+  tags: [php-fpm,packages]
+
+- name: Configure php5
+  ini_file:
+    dest: '/etc/php5/fpm/php.ini'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: php_fpm_options
+  notify: Restart php-fpm
+  tags: [php-fpm,configuration]
+
+- name: Ensure php-fpm is started and enabled at boot
+  service:
+    name: 'php5-fpm'
+    state: 'started'
+    enabled: 'yes'
+  tags: [php-fpm,services]

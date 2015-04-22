@@ -1,0 +1,5 @@
+---
+# defaults file for php-fpm
+
+php_fpm_modules: []
+php_fpm_options: []
