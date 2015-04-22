@@ -1,0 +1,51 @@
+---
+# tasks file for nginx
+
+- name: Add nginx apt key
+  apt_key:
+    url: 'http://nginx.org/keys/nginx_signing.key'
+    state: 'present'
+  tags: [nginx,packages]
+
+- name: Add nginx repos
+  apt_repository:
+    state: 'present'
+    repo: '{{ item }}'
+    update_cache: 'yes'
+  with_items:
+    - 'deb http://nginx.org/packages/{{ nginx_version }}/ubuntu/ {{ ansible_lsb.codename }} nginx'
+    - 'deb-src http://nginx.org/packages/{{ nginx_version }}/ubuntu/ {{ ansible_lsb.codename }} nginx'
+  tags: [nginx,packages]
+
+- name: Install the latest nginx packages
+  apt:
+    name: 'nginx'
+    state: 'latest'
+  tags: [nginx,packages]
+
+- name: Configure nginx
+  template:
+    src: 'nginx.conf.j2'
+    dest: '/etc/nginx/nginx.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart nginx
+  tags: [nginx,configuration]
+
+- name: Disable default vhosts
+  file:
+    state: 'absent'
+    path: '/etc/nginx/conf.d/{{ item }}'
+  with_items:
+    - default.conf
+    - example_ssl.conf
+  notify: Reload nginx
+  tags: [nginx,configuration]
+
+- name: Ensure nginx is started and enabled on boot
+  service:
+    name: 'nginx'
+    state: 'started'
+    enabled: 'yes'
+  tags: [nginx,services]

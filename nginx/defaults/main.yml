@@ -1,0 +1,15 @@
+---
+# defaults file for nginx
+
+nginx_version: ''
+nginx_worker_processes: '1'
+nginx_worker_connections: '1024'
+nginx_user: 'www-data'
+nginx_sendfile: 'on'
+nginx_tcp_nopush: 'on'
+nginx_tcp_nodelay: 'on'
+nginx_keepalive_timeout: '65'
+nginx_types_hash_max_size: '2048'
+nginx_custom_directives: []
+nginx_access_log: 'off'
+nginx_error_log: '/var/log/nginx/error.log'
