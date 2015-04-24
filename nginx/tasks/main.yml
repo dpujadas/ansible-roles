@@ -23,6 +23,15 @@
     state: 'latest'
   tags: [nginx,packages]
 
+- name: Ensure sites-enabled directory exists
+  file:
+    state: 'directory'
+    path: '/etc/nginx/sites-enabled'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [nginx,configuration]
+
 - name: Configure nginx
   template:
     src: 'nginx.conf.j2'
