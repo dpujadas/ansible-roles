@@ -1,5 +1,5 @@
-Role Name
-=========
+deployment
+==========
 
 This role creates a PHP deployment environment (creates app_root path, installs git and composer, ...)
 

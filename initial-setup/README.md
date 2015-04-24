@@ -1,5 +1,5 @@
-Role Name
-=========
+initial-setup
+=============
 
 This role performs several tasks usually performed after installing a new server.
 

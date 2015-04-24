@@ -1,5 +1,5 @@
-Role Name
-=========
+php-fpm
+=======
 
 This role installs and configures php-fpm using [ondrej repo](https://launchpad.net/~ondrej/+archive/ubuntu/php5) for latest PHP packages.
 
