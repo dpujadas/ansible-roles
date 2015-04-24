@@ -1,0 +1,38 @@
+---
+# tasks file for redis-server
+
+- name: Install chris-lea repo for latest redis packages
+  apt_repository:
+    repo: 'ppa:chris-lea/redis-server'
+  tags: [redis-server,packages]
+
+- name: Install redis packages 
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - python-selinux
+    - redis-server
+  tags: [redis-server,packages]
+
+- name: Copy the redis configuration file 
+  template:
+    src: 'redis.conf.j2'
+    dest: '/etc/redis/redis.conf'
+  notify: 
+    - Restart redis 
+  tags: [redis-server,configuration]
+
+- name: Set the kernel paramter for vm overcommit 
+  sysctl:
+    name: 'vm.overcommit_memory'
+    value: '1'
+    state: 'present'
+  tags: [redis-server,configuration]
+
+- name: Ensure redis is started and enabled at boot
+  service:
+    name: 'redis-server'
+    state: 'started'
+    enabled: 'yes'
+  tags: [redis-server,services]

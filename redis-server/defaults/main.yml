@@ -1,0 +1,5 @@
+---
+# defaults file for redis-server
+
+redis_server_port: '6379'
+redis_server_slaveof: ''
