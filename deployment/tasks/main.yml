@@ -41,6 +41,25 @@
 - name: Configure composer
   shell: su -l {{ deployment_user }} -c "composer config -g github-oauth.github.com {{ deployment_github_token }}"
   args:
-    creates: '/var/www/.composer/auth.json'
+    creates: '{{ deployment_root }}/.composer/auth.json'
   when: deployment_github_token is defined
   tags: [deployment,packages]
+
+- name: Create .ssh directory
+  file:
+    dest: '{{ deployment_root }}/.ssh'
+    state: 'directory'
+    owner: '{{ deployment_user }}'
+    group: '{{ deployment_group }}'
+    mode: '0700'
+  tags: [deployment]
+
+- name: Install rsa key for ssh connections (to github, bitbucket, ...)
+  copy:
+    src: '{{ deployment_rsa_key }}'
+    dest: '{{ deployment_root }}/.ssh/id_rsa'
+    owner: '{{ deployment_user }}'
+    group: '{{ deployment_group }}'
+    mode: '0600'
+  when: deployment_rsa_key is defined
+  tags: [deployment]
