@@ -52,7 +52,7 @@
   notify: Reload nginx
   tags: [nginx,configuration]
 
-- name: Ensure nginx is started and enabled on boot
+- name: Ensure nginx is started and enabled at boot
   service:
     name: 'nginx'
     state: 'started'

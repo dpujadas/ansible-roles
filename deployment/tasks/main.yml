@@ -27,6 +27,7 @@
     update_cache: 'yes'
   with_items:
     - { name: 'git', state: 'present' }
+    - { name: 'mysql-client-5.6', state: 'present' }
   tags: [deployment,packages]
 
 - name: Install composer
