@@ -62,5 +62,21 @@
     owner: '{{ deployment_user }}'
     group: '{{ deployment_group }}'
     mode: '0600'
+    force: '{{ deployment_force_rsa_key }}'
   when: deployment_rsa_key is defined
-  tags: [deployment]
+  register: deployment_rsa_key_copy
+  tags: [deployment,rsa-key]
+
+- name: Decrypt rsa key
+  shell: openssl aes-256-cbc -salt -a -d -in {{ deployment_root }}/.ssh/id_rsa -out {{ deployment_root }}/.ssh/id_rsa.dec -k {{ deployment_key_password }}
+  args:
+    creates: '{{ deployment_root }}/.ssh/id_rsa.dec'
+  when: deployment_rsa_key_copy.changed
+  tags: [deployment,rsa-key]
+
+- name: Rename decrypted key
+  shell: mv {{ deployment_root }}/.ssh/id_rsa.dec {{ deployment_root }}/.ssh/id_rsa
+  args:
+    removes: '{{ deployment_root }}/.ssh/id_rsa.dec'
+  when: deployment_rsa_key_copy.changed
+  tags: [deployment,rsa-key]

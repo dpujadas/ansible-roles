@@ -4,3 +4,4 @@
 deployment_user: 'www-data'
 deployment_group: 'www-data'
 deployment_use_php_fpm: false
+deployment_force_rsa_key: 'no'
