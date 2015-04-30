@@ -28,12 +28,10 @@
 
 - name: Install some packages
   apt:
-    name: '{{ item.name }}'
-    state: '{{ item.state }}'
+    name: '{{ item }}'
+    state: 'present'
     update_cache: 'yes'
-  with_items:
-    - { name: 'git', state: 'present' }
-    - { name: 'mysql-client-5.6', state: 'present' }
+  with_items: '{{ deployment_packages|union(deployment_extra_packages) }}'
   tags: [deployment,packages]
 
 - name: Install composer
