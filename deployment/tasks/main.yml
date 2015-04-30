@@ -7,14 +7,14 @@
     shell: '/bin/bash'
   tags: [deployment]
 
-- name: Ensure {{ deployment_root }} exists and belongs to {{ deployment_user }}
-  file:
-    dest: '{{ deployment_root }}'
-    state: 'directory'
-    owner: '{{ deployment_user }}'
-    group: '{{ deployment_group }}'
-    mode: '0775'
-  tags: [deployment]
+#- name: Ensure {{ deployment_root }} exists and belongs to {{ deployment_user }}
+#  file:
+#    dest: '{{ deployment_root }}'
+#    state: 'directory'
+#    owner: '{{ deployment_user }}'
+#    group: '{{ deployment_group }}'
+#    mode: '0775'
+#  tags: [deployment]
 
 - name: Allow {{ deployment_user }} to perform php-fpm restart
   template:
