@@ -1,0 +1,72 @@
+---
+# tasks file for apache
+
+- name: Install required packages
+  apt:
+    name: 'python-passlib'
+    state: 'installed'
+  tags: [apache,packages]
+
+- name: Install apache packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: apache_packages
+  tags: [apache,packages]
+
+- name: Enable apache modules
+  apache2_module:
+    name: '{{ item }}'
+    state: 'present'
+  with_items: apache_mods_enabled
+  notify: Restart apache
+  tags: [apache,configuration]
+
+- name: Set apache envvars
+  template:
+    src: 'envvars.j2'
+    dest: '/etc/apache2/envvars'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart apache
+  tags: [apache,configuration]
+
+- name: Disable default vhosts
+  file:
+    state: 'absent'
+    path: '/etc/apache2/sites-enabled/{{ item }}'
+  with_items:
+    - 000-default.conf
+  notify: Reload apache
+  tags: [apache,configuration]
+
+- name: Configure sites
+  template:
+    src: '{{ item.template }}'
+    dest: '/etc/apache2/sites-enabled/{{ item.server_name }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  with_items: apache_sites
+  notify: Reload apache
+  tags: [apache,custom]
+
+- name: Setup htpasswd file
+  htpasswd:
+    path: '/etc/apache2/htpasswd'
+    name: '{{ item.user }}'
+    password: '{{ item.pass }}'
+    owner: 'root'
+    group: '{{ apache_group }}'
+    mode: '0640'
+  with_items: apache_auth_users
+  tags: [apache,configuration]
+
+- name: Ensure apache is started and enabled on boot
+  service:
+    name: 'apache2'
+    state: 'started'
+    enabled: 'yes'
+  tags: [apache,services]

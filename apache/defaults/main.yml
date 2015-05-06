@@ -1,0 +1,12 @@
+---
+# defaults file for apache
+
+apache_user: 'www-data'
+apache_group: '{{ apache_user }}'
+apache_packages:
+  - apache2
+  - apache2-mpm-prefork
+  - apache2-utils
+apache_mods_enabled: []
+apache_sites: []
+apache_auth_users: []
