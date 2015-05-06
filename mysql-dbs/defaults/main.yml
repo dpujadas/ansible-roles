@@ -1,0 +1,6 @@
+---
+# defaults file for mysql-dbs
+
+mysql_dbs_host: 'localhost'
+mysql_dbs_user: 'root'
+mysql_dbs_password: ''

@@ -1,0 +1,33 @@
+---
+# tasks file for mysql-dbs
+
+- name: Install required packages
+  apt:
+    name: 'python-mysqldb'
+    state: 'installed'
+  tags: [mysql-dbs,packages]
+
+- name: Create the databases
+  mysql_db:
+    name: '{{ item.name }}'
+    state: 'present'
+    login_host: '{{ mysql_dbs_host }}'
+    login_user: '{{ mysql_dbs_user }}'
+    login_password: '{{ mysql_dbs_password }}'
+  with_items: mysql_dbs
+  run_once: true
+  tags: [mysql-dbs]
+
+- name: Create the database users
+  mysql_user:
+    name: '{{ item.user }}'
+    password: '{{ item.pass }}'
+    priv: '{{ item.name }}.*:ALL'
+    state: 'present'
+    host: '{{ item.host }}'
+    login_host: '{{ mysql_dbs_host }}'
+    login_user: '{{ mysql_dbs_user }}'
+    login_password: '{{ mysql_dbs_password }}'
+  with_items: mysql_dbs
+  run_once: true
+  tags: [mysql-dbs]
