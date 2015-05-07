@@ -1,0 +1,16 @@
+---
+# tasks file for filesystem
+
+- name: Ensure device is formatted
+  filesystem:
+    dev: '{{ filesystem_device }}'
+    fstype: '{{ filesystem_type }}'
+  tags: [filesystem]
+
+- name: Ensure volume is mounted
+  mount:
+    name: '{{ filesystem_mountpoint }}'
+    src: '{{ filesystem_device }}'
+    fstype: '{{ filesystem_type }}'
+    state: 'mounted'
+  tags: [filesystem]
