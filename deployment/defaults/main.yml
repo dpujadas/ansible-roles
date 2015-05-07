@@ -10,3 +10,4 @@ deployment_packages:
   - mysql-client-5.6
 deployment_extra_packages: []
 deployment_authorized_keys: []
+deployment_root_type: 'file'

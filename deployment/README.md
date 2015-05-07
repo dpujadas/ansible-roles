@@ -6,11 +6,12 @@ This role creates a PHP deployment environment (creates app_root path, installs 
 Role Variables
 --------------
 
-* **deployment_root:** Directory where code will be deployed, usually /var/www
+* **deployment_root:** Directory where code will be deployed, usually '/var/www'
 * **deployment_user:** User that will perform deploys (default: 'www-data')
 * **deployment_group:** Group that will perform deploys (default: 'www-data')
 * **deployment_github_token:** If set, will be used by composer to download code from Github.
 * **deployment_use_php_fpm:** Indicates if server is using php-fpm (default: false)
+* **deployment_root_type:** Indicates the type of node where code will be deployed. Possible values: 'file', 'nfs' (default: 'file')
 
 Example Playbook
 ----------------
@@ -19,7 +20,8 @@ Example Playbook
       roles:
         - { 
             role: deployment,
-            deployment_root: '/var/www'
+            deployment_root: '/var/www',
+            deployment_root_type: 'nfs'
         }
 
 License
