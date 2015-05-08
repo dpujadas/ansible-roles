@@ -46,3 +46,11 @@
     state: 'started'
     enabled: 'yes'
   tags: [initial-setup,ntp]
+
+- name: Setup internal management public key
+  authorized_key:
+    user: '{{ initial_setup_management_user }}'
+    key: '{{ item }}'
+    key_options: 'from="localhost,10.0.*"'
+  with_file: initial_setup_management_public_key
+  tags: [initial-setup]

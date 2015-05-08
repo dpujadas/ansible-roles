@@ -2,3 +2,5 @@
 # defaults file for initial-setup
 
 initial_setup_full_upgrade: false
+initial_setup_management_user: 'ubuntu'
+initial_setup_management_public_key: []
