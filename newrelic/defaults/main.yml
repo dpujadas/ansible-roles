@@ -1,0 +1,5 @@
+---
+# defaults file for newrelic
+
+newrelic_options: []
+newrelic_php_options: []

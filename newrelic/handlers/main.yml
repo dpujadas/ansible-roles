@@ -1,0 +1,12 @@
+---
+# handlers file for newrelic
+
+- name: Restart newrelic
+  service:
+    name: 'newrelic-daemon'
+    state: 'restarted'
+
+- name: Reload newrelic
+  service:
+    name: 'newrelic-daemon'
+    state: 'reloaded'

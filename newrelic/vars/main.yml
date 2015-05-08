@@ -1,0 +1,13 @@
+---
+# vars file for newrelic
+
+newrelic_url_key: 'https://download.newrelic.com/548C16BF.gpg'
+newrelic_apt_repo: 'deb http://apt.newrelic.com/debian/ newrelic non-free'
+newrelic_packages:
+  - newrelic-daemon
+newrelic_conf_file: '/etc/newrelic/newrelic.cfg'
+
+newrelic_php_packages:
+  - newrelic-php5
+  - newrelic-php5-common
+newrelic_php_conf_file: '/etc/php5/mods-available/newrelic.ini'
