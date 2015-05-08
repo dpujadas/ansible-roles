@@ -1,0 +1,4 @@
+---
+# vars file for ssh-key
+
+ssh_key_filename: '~{{ ssh_key_user }}/.ssh/{{ ssh_key_name }}'

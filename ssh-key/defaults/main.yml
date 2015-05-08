@@ -1,0 +1,6 @@
+---
+# defaults file for ssh-key
+
+ssh_key_name: 'id_rsa'
+ssh_key_group: '{{ ssh_key_user }}'
+ssh_key_force: 'no'
