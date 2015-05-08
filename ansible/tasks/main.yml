@@ -1,0 +1,15 @@
+---
+# tasks file for ansible
+
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: ansible_required_packages
+  tags: [ansible,packages]
+
+- name: Install pip ansible package
+  pip:
+    name: 'ansible'
+    state: 'present'
+  tags: [ansible,packages]

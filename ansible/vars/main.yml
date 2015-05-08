@@ -1,0 +1,6 @@
+---
+# vars file for ansible
+
+ansible_required_packages:
+  - python-dev
+  - python-pip
