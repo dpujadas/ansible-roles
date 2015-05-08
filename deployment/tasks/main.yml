@@ -14,17 +14,7 @@
     owner: '{{ deployment_user }}'
     group: '{{ deployment_group }}'
     mode: '0775'
-  when: deployment_root_type == 'file'
-  tags: [deployment]
-
-- name: Allow {{ deployment_user }} to perform php-fpm restart
-  template:
-    src: 'sudoers.j2'
-    dest: '/etc/sudoers.d/deployment_user'
-    owner: 'root'
-    group: 'root'
-    mode: '0440'
-  when: deployment_use_php_fpm
+  when: deployment_root_type != 'nfs'
   tags: [deployment]
 
 - name: Install some packages
@@ -35,70 +25,15 @@
   with_items: '{{ deployment_packages|union(deployment_extra_packages) }}'
   tags: [deployment,packages]
 
-- name: Install composer
-  get_url:
-    url: 'https://getcomposer.org/composer.phar'
-    dest: '/usr/local/bin/composer'
-    owner: '{{ deployment_user }}'
-    group: '{{ deployment_group }}'
-    mode: '0755'
-  tags: [deployment,packages]
-
-- name: Configure composer
-  shell: su -l {{ deployment_user }} -c "composer config -g github-oauth.github.com {{ deployment_github_token }}"
-  args:
-    creates: '~{{ deployment_user }}/.composer/auth.json'
-  when: deployment_github_token is defined
-  tags: [deployment,packages]
-
-- name: Create .ssh directory
-  file:
-    dest: '~{{ deployment_user }}/.ssh'
-    state: 'directory'
-    owner: '{{ deployment_user }}'
-    group: '{{ deployment_group }}'
-    mode: '0700'
-  tags: [deployment]
-
-- name: Install rsa key for ssh connections (to github, bitbucket, ...)
-  copy:
-    src: '{{ deployment_rsa_key }}'
-    dest: '~{{ deployment_user }}/.ssh/id_rsa'
-    owner: '{{ deployment_user }}'
-    group: '{{ deployment_group }}'
-    mode: '0600'
-    force: '{{ deployment_force_rsa_key }}'
-  when: deployment_rsa_key is defined
-  register: deployment_rsa_key_copy
-  tags: [deployment,rsa-key]
-
-- name: Decrypt rsa key
-  shell: openssl aes-256-cbc -salt -a -d -in ~{{ deployment_user }}/.ssh/id_rsa -out ~{{ deployment_user }}/.ssh/id_rsa.dec -k {{ deployment_key_password }}
-  args:
-    creates: '~{{ deployment_user }}/.ssh/id_rsa.dec'
-  when: deployment_rsa_key_copy.changed
-  tags: [deployment,rsa-key]
-
-- name: Rename decrypted key
-  shell: mv ~{{ deployment_user }}/.ssh/id_rsa.dec ~{{ deployment_user }}/.ssh/id_rsa
-  args:
-    removes: '~{{ deployment_user }}/.ssh/id_rsa.dec'
-  when: deployment_rsa_key_copy.changed
-  tags: [deployment,rsa-key]
-
-- name: Set key file permissions
-  file:
-    path: '~{{ deployment_user }}/.ssh/id_rsa'
-    owner: '{{ deployment_user }}'
-    group: '{{ deployment_group }}'
-    mode: '0600'
-  when: deployment_rsa_key is defined
-  tags: [deployment,rsa-key]
-
 - name: Add authorized keys
   authorized_key:
     user: '{{ deployment_user }}'
     key: '{{ item }}'
   with_file: deployment_authorized_keys
   when: deployment_authorized_keys is defined
+  tags: [deployment]
+
+- name: Include deployment php
+  include: 'php.yml'
+  when: deployment_type_php
   tags: [deployment]

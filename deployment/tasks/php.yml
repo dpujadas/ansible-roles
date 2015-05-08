@@ -1,0 +1,25 @@
+- name: Allow {{ deployment_user }} to perform php-fpm restart
+  template:
+    src: 'sudoers.j2'
+    dest: '/etc/sudoers.d/deployment_user'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  when: deployment_use_php_fpm
+  tags: [deployment]
+
+- name: Install composer
+  get_url:
+    url: 'https://getcomposer.org/composer.phar'
+    dest: '/usr/local/bin/composer'
+    owner: '{{ deployment_user }}'
+    group: '{{ deployment_group }}'
+    mode: '0755'
+  tags: [deployment,packages]
+
+- name: Configure composer
+  shell: su -l {{ deployment_user }} -c "composer config -g github-oauth.github.com {{ deployment_github_token }}"
+  args:
+    creates: '~{{ deployment_user }}/.composer/auth.json'
+  when: deployment_github_token is defined
+  tags: [deployment,packages]
