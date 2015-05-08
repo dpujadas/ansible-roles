@@ -1,0 +1,41 @@
+---
+# tasks file for php_fpm
+
+- name: Include the php_fpm variables
+  include_vars: "fpm.yml"
+  tags: [php,php-fpm]
+
+- name: Install the php_fpm packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: php_fpm_packages
+  tags: [php,php-fpm,packages]
+
+- name: Configure php_fpm
+  ini_file:
+    dest: '{{ php_fpm_ini_file }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: php_fpm_options
+  notify: Restart php-fpm
+  tags: [php,php-fpm,configuration]
+
+- name: Configure pools
+  ini_file:
+    dest: '{{ php_fpm_pools_dir }}/{{ item.name }}.conf'
+    section: '{{ item.name }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: php_fpm_pool_options
+  notify: Restart php-fpm
+  tags: [php,php-fpm,configuration]
+
+- name: Ensure php-fpm is started and enabled at boot
+  service:
+    name: 'php5-fpm'
+    state: 'started'
+    enabled: 'yes'
+  tags: [php,php-fpm,services]

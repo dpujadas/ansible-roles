@@ -1,0 +1,7 @@
+---
+# vars file for php_fpm
+
+php_fpm_packages:
+  - php5-fpm
+php_fpm_ini_file: '/etc/php5/fpm/php.ini'
+php_fpm_pools_dir: '/etc/php5/fpm/pool.d'
