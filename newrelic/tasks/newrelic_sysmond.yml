@@ -1,0 +1,37 @@
+---
+# tasks file for newrelic-sysmond
+
+- name: Install the newrelic_sysmond packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items: newrelic_sysmond_packages
+  tags: [newrelic,newrelic-sysmond,packages]
+
+# Default nrsysmond file has no section at the beginning and ansible
+# fails when parsing it. As a workaround, we create the [sysmond] section
+- name: Create initial section
+  lineinfile:
+    dest: '{{ newrelic_sysmond_conf_file }}'
+    insertbefore: 'BOF'
+    line: '[sysmond]'
+  tags: [newrelic,newrelic-sysmond,configuration]
+
+- name: Configure newrelic_sysmond {{ newrelic_sysmond_conf_file }}
+  ini_file:
+    dest: '{{ newrelic_sysmond_conf_file }}'
+    section: sysmond
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+    owner: 'newrelic'
+    group: 'newrelic'
+  with_items: newrelic_sysmond_options
+  notify: Restart newrelic-sysmond
+  tags: [newrelic,newrelic-sysmond,configuration]
+
+- name: Ensure newrelic-sysmond is started and enabled on boot
+  service:
+    name: 'newrelic-sysmond'
+    state: 'started'
+    enabled: 'yes'
+  tags: [newrelic,newrelic-sysmond,services]

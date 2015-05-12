@@ -7,6 +7,17 @@ newrelic_packages:
   - newrelic-daemon
 newrelic_conf_file: '/etc/newrelic/newrelic.cfg'
 
+newrelic_sysmond_packages:
+  - newrelic-sysmond
+newrelic_sysmond_conf_file: '/etc/newrelic/nrsysmond.cfg'
+newrelic_sysmond_options:
+  - option: 'license_key'
+    value: '{{ newrelic_license_key }}'
+  - option: 'loglevel'
+    value: '{{ newrelic_sysmond_loglevel }}'
+  - option: 'logfile'
+    value: '{{ newrelic_sysmond_logfile }}'
+
 newrelic_php_packages:
   - newrelic-php5
   - newrelic-php5-common

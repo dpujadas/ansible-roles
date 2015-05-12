@@ -14,39 +14,12 @@
     update_cache: 'yes'
   tags: [newrelic,packages]
 
-- name: Install the newrelic packages
-  apt:
-    name: '{{ item }}'
-    state: 'present'
-  with_items: newrelic_packages
-  tags: [newrelic,packages]
+- name: Install newrelic apm
+  include: newrelic_apm.yml
+  when: newrelic_agent_type is defined
+  tags: [newrelic]
 
-- name: Ensure configuration file exists (newrelic daemon needs it, even empty)
-  file:
-    path: '{{ newrelic_conf_file }}'
-    state: 'touch'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  tags: [newrelic,configuration]
-
-- name: Configure newrelic daemon
-  ini_file:
-    dest: '{{ newrelic_conf_file }}'
-    section: '{{ item.section }}'
-    option: '{{ item.option }}'
-    value: '{{ item.value }}'
-  with_items: newrelic_options
-  notify: Restart newrelic
-  tags: [newrelic,configuration]
-
-- name: Ensure newrelic-daemon is started and enabled on boot
-  service:
-    name: 'newrelic-daemon'
-    state: 'started'
-    enabled: 'yes'
-  tags: [newrelic,services]
-
-- name: Install newrelic agent
-  include: newrelic_{{ newrelic_agent_type }}.yml
+- name: Install newrelic sysmond
+  include: newrelic_sysmond.yml
+  when: newrelic_sysmond_install
   tags: [newrelic]

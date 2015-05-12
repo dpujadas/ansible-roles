@@ -2,4 +2,9 @@
 # defaults file for newrelic
 
 newrelic_options: []
+
 newrelic_php_options: []
+
+newrelic_sysmond_install: false
+newrelic_sysmond_loglevel: 'info'
+newrelic_sysmond_logfile: '/var/log/newrelic/nrsysmond.log'

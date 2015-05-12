@@ -10,3 +10,13 @@
   service:
     name: 'newrelic-daemon'
     state: 'reloaded'
+
+- name: Restart newrelic-sysmond
+  service:
+    name: 'newrelic-sysmond'
+    state: 'restarted'
+
+- name: Reload newrelic-sysmond
+  service:
+    name: 'newrelic-sysmond'
+    state: 'reloaded'
