@@ -1,0 +1,7 @@
+---
+# vars file for nodejs
+
+nodejs_packages:
+  - nodejs
+  - nodejs-legacy
+  - npm

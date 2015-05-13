@@ -1,0 +1,5 @@
+---
+# defaults file for nodejs
+
+nodejs_modules: []
+nodejs_npm_packages: []

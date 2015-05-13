@@ -1,0 +1,26 @@
+---
+# tasks file for nodejs
+
+- name: Install the nodejs packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: nodejs_packages
+  tags: [nodejs,packages]
+
+- name: Install the nodejs modules
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: nodejs_modules
+  tags: [nodejs,packages]
+
+- name: Install the npm packages
+  npm:
+    name: '{{ item }}'
+    state: 'present'
+    global: 'yes'
+  with_items: nodejs_npm_packages
+  tags: [nodejs,packages]
