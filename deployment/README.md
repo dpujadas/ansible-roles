@@ -9,9 +9,12 @@ Role Variables
 * **deployment_root:** Directory where code will be deployed, usually '/var/www'
 * **deployment_user:** User that will perform deploys (default: 'www-data')
 * **deployment_group:** Group that will perform deploys (default: 'www-data')
+* **deployment_root_type:** Indicates the type of node where code will be deployed. Possible values: 'file', 'nfs' (default: 'file')
+* **deployment_extra_packages:** List of extra packages needed for deployment, appended to deployment_packages list (default: empty list)
+* **deployment_authorized_keys:** If set, will be added to deployment_user's authorized_keys.
+* **deployment_type_php:** Indicates if the deployment environment uses PHP in order to include php-related stuff (default: false).
 * **deployment_github_token:** If set, will be used by composer to download code from Github.
 * **deployment_use_php_fpm:** Indicates if server is using php-fpm (default: false)
-* **deployment_root_type:** Indicates the type of node where code will be deployed. Possible values: 'file', 'nfs' (default: 'file')
 
 Example Playbook
 ----------------
