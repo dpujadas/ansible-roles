@@ -32,7 +32,7 @@
     mode: '0755'
   tags: [nginx,configuration]
 
-- name: Configure nginx
+- name: Configure nginx server
   template:
     src: 'nginx.conf.j2'
     dest: '/etc/nginx/nginx.conf'
@@ -42,6 +42,17 @@
   notify: Restart nginx
   tags: [nginx,configuration]
 
+- name: Enable custom configurations
+  template:
+    src: '{{ item.template }}'
+    dest: '/etc/nginx/conf.d/{{ item.conf_name }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  with_items: nginx_confs
+  notify: Reload nginx
+  tags: [nginx,configuration]
+
 - name: Disable default vhosts
   file:
     state: 'absent'
@@ -49,6 +60,17 @@
   with_items:
     - default.conf
     - example_ssl.conf
+  notify: Reload nginx
+  tags: [nginx,configuration]
+
+- name: Configure sites
+  template:
+    src: '{{ item.template }}'
+    dest: '/etc/nginx/sites-enabled/{{ item.server_name }}.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  with_items: nginx_sites
   notify: Reload nginx
   tags: [nginx,configuration]
 

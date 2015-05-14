@@ -51,7 +51,7 @@
     mode: '0644'
   with_items: apache_sites
   notify: Reload apache
-  tags: [apache,custom]
+  tags: [apache,configuration]
 
 - name: Setup htpasswd file
   htpasswd:

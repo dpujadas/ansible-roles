@@ -18,6 +18,9 @@ Role Variables
 * **nginx_custom_directives:** List of custom directives (directive / value) to apply (default: empty list)
 * **nginx_access_log:** Path to access log (default: 'off')
 * **nginx_error_log:** Path to error log (default: '/var/log/nginx/error.log')
+* **nginx_doc_root:** Directory where apps will be installed (Ex: '/var/www')
+* **nginx_sites:** List of sites (server_name / template) to enable (default: empty list)
+* **nginx_confs:** List of confs (conf_name / template) to enable (default: empty list)
 
 Example Playbook
 ----------------
