@@ -66,7 +66,7 @@
 - name: Configure sites
   template:
     src: '{{ item.template }}'
-    dest: '/etc/nginx/sites-enabled/{{ item.server_name }}.conf'
+    dest: '/etc/nginx/sites-enabled/{{ item.filename|default(item.server_name) }}.conf'
     owner: 'root'
     group: 'root'
     mode: '0644'

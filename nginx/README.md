@@ -19,19 +19,29 @@ Role Variables
 * **nginx_access_log:** Path to access log (default: 'off')
 * **nginx_error_log:** Path to error log (default: '/var/log/nginx/error.log')
 * **nginx_doc_root:** Directory where apps will be installed (Ex: '/var/www')
-* **nginx_sites:** List of sites (server_name / template) to enable (default: empty list)
+* **nginx_sites:** List of sites (server_name / template / filename) to enable. Filename field is optional (server_name is used if not defined) but usefull in case load order is important (default: empty list)
 * **nginx_confs:** List of confs (conf_name / template) to enable (default: empty list)
 
 Example Playbook
 ----------------
 
     - hosts: servers
+      vars:
+        custom_directives:
+          - directive: 'client_max_body_size'
+            value: '20M'
+        sites:
+          - template: 'path-to-template-1.j2'
+            server_name: 'www.site.com'
+          - template: 'path-to-template-2.j2'
+            server_name: 'all.site.com'
+            filename: 'z-all.site.com' # We need this site to be the last
       roles:
         - { 
-          role: nginx, 
-          nginx_custom_directives: [
-            { "directive": "client_max_body_size", "value": "20M" }
-          ]
+          role: nginx,
+          nginx_doc_root: '/var/www',
+          nginx_custom_directives: {{ custom_directives }},
+          nginx_sites: '{{ sites }}'
         }
 
 License
