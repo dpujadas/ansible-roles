@@ -17,7 +17,7 @@ Example Playbook
     - hosts: servers
       vars:
         dbs:
-          - name: 'dbname'
+          dbname:
             user: 'username'
             pass: 'SuperSecretPass'
             host: '%'

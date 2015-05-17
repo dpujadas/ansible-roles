@@ -9,25 +9,25 @@
 
 - name: Create the databases
   mysql_db:
-    name: '{{ item.name }}'
+    name: '{{ item.key }}'
     state: 'present'
     login_host: '{{ mysql_dbs_host }}'
     login_user: '{{ mysql_dbs_user }}'
     login_password: '{{ mysql_dbs_password }}'
-  with_items: mysql_dbs
+  with_dict: mysql_dbs
   run_once: true
   tags: [mysql-dbs]
 
 - name: Create the database users
   mysql_user:
-    name: '{{ item.user }}'
-    password: '{{ item.pass }}'
-    priv: '{{ item.name }}.*:ALL'
+    name: '{{ item.value.user }}'
+    password: '{{ item.value.pass }}'
+    priv: '{{ item.key }}.*:ALL'
     state: 'present'
-    host: '{{ item.host }}'
+    host: '{{ item.value.host }}'
     login_host: '{{ mysql_dbs_host }}'
     login_user: '{{ mysql_dbs_user }}'
     login_password: '{{ mysql_dbs_password }}'
-  with_items: mysql_dbs
+  with_dict: mysql_dbs
   run_once: true
   tags: [mysql-dbs]
