@@ -1,7 +1,7 @@
 duplicity
 =========
 
-This role installs [duplicity](http://duplicity.nongnu.org/) and its wrapper [duply](http://duply.net/) and manages duply profiles.
+This role installs [duplicity](http://duplicity.nongnu.org/) and its wrapper [duply](http://duply.net/) and manages duply profiles using S3 as backend.
 
 Role Variables
 --------------
