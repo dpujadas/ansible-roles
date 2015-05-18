@@ -1,0 +1,6 @@
+---
+# vars file for duplicity
+
+duplicity_required_packages:
+  - python-boto
+duplicity_duply_url: 'http://sourceforge.net/projects/ftplicity/files/latest/download?source=files'

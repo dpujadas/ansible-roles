@@ -1,0 +1,44 @@
+---
+# tasks file for duplicity
+
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: duplicity_required_packages
+  tags: [duplicity,packages]
+
+- name: Add duplicity repos
+  apt_repository:
+    state: 'present'
+    repo: 'ppa:duplicity-team/ppa'
+    update_cache: 'yes'
+  tags: [duplicity,packages]
+
+- name: Install the latest duplicity packages
+  apt:
+    name: 'duplicity'
+    state: 'latest'
+  tags: [duplicity,packages]
+
+- name: Download duply
+  get_url:
+    url: '{{ duplicity_duply_url }}'
+    dest: '/tmp'
+  register: duplicity_duply_download
+  tags: [duplicity,packages]
+
+- name: Set duplicity_duply_basename
+  set_fact:
+    duplicity_duply_basename: '{{ duplicity_duply_download.dest | basename }}'
+  tags: [duplicity]
+
+- name: Install duply executable
+  command: '/bin/tar -C /usr/local/bin/ -zxvf /tmp/{{ duplicity_duply_basename }} {{ duplicity_duply_basename.replace(".tgz","") }}/duply --strip-components=1'
+  args:
+    creates: '/usr/local/bin/duply'
+  tags: [duplicity,packages]
+
+- name: Create profiles
+  include: 'duply-profile.yml'
+  tags: [duplicity,configuration]

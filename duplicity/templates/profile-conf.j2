@@ -1,0 +1,6 @@
+GPG_PW='{{ duplicity_gpg_pass }}'
+TARGET='s3+http://{{ duplicity_aws_bucket }}/{{ item.key }}'
+TARGET_USER='{{ duplicity_aws_user }}'
+TARGET_PASS='{{ duplicity_aws_pass }}'
+SOURCE='{{ item.value.source }}'
+MAX_AGE={{ item.value.max_age }}

@@ -1,0 +1,5 @@
+---
+# defaults file for duplicity
+
+duplicity_user: 'root'
+duplicity_profiles: []

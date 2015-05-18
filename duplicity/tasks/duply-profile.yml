@@ -1,0 +1,26 @@
+---
+# tasks file for duply-profile
+
+- name: Create duply profile
+  command: su {{ duplicity_user }} -c "duply {{ item.key }} create"
+  args:
+    creates: '~{{ duplicity_user }}/.duply/{{ item.key }}'
+  with_dict: duplicity_profiles
+  tags: [duplicity,duply-profile]
+
+- name: Configure duply profile
+  template:
+    dest: '~{{ duplicity_user }}/.duply/{{ item.key }}/conf'
+    src: 'profile-conf.j2'
+  with_dict: duplicity_profiles
+  tags: [duplicity,duply-profile,configuration]
+
+- name: Setup cron job
+  cron:
+    name: 'Backup {{ item.key }} profile'
+    state: 'present'
+    job: 'silence-unless-failed duply {{ item.key }} backup'
+    special_time: '{{ item.value.cron }}'
+    user: '{{ duplicity_user }}'
+  with_dict: duplicity_profiles
+  tags: [duplicity,duply-profile]
