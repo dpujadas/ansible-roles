@@ -54,3 +54,12 @@
     key_options: 'from="localhost,10.0.*"'
   with_file: initial_setup_management_public_key
   tags: [initial-setup]
+
+- name: Install silence-unless-failed script
+  copy: 
+    src: 'silence-unless-failed'
+    dest: '/usr/local/bin'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [initial-setup]
