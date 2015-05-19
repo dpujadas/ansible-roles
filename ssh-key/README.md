@@ -3,6 +3,11 @@ ssh-key
 
 This role decrypts and installs an encrypted key.
 
+Requirements
+------------
+
+Key must be encrypted using openssl as described in [this article](https://www.calazan.com/how-to-deploy-encrypted-copies-of-your-ssl-keys-and-other-files-with-ansible-and-openssl/)
+
 Role Variables
 --------------
 
