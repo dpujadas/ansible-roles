@@ -15,6 +15,7 @@
     dest: '{{ newrelic_php_conf_file }}'
     insertbefore: 'BOF'
     line: '[extension]'
+  notify: '{{ newrelic_php_notify }}'
   tags: [newrelic,newrelic-php,configuration]
 
 - name: Configure newrelic_php agent
