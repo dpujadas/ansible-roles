@@ -22,3 +22,7 @@ newrelic_php_packages:
   - newrelic-php5
   - newrelic-php5-common
 newrelic_php_conf_file: '/etc/php5/mods-available/newrelic.ini'
+newrelic_php_default_options:
+  - section: 'newrelic'
+    option: 'newrelic.license'
+    value: '{{ newrelic_license_key }}'
