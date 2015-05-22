@@ -1,0 +1,48 @@
+---
+# tasks file for decrypt-file
+
+- name: Create dest directory
+  file:
+    dest: '{{ item.dest|dirname }}'
+    state: 'directory'
+    owner: '{{ item.owner }}'
+    group: '{{ item.group|default(item.owner) }}'
+    mode: '{{ item.dir_mode|default("0700") }}'
+  with_items: decrypt_file_files
+  tags: [decrypt-file]
+
+- name: Copy encrypted file
+  copy:
+    src: '{{ item.content }}'
+    dest: '{{ item.dest }}.tmp'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  with_items: decrypt_file_files
+  tags: [decrypt-file]
+
+- name: Decrypt file
+  shell: openssl aes-256-cbc -salt -a -d -in {{ item.dest }}.tmp -out {{ item.dest }}.dec -k {{ decrypt_file_password }}
+  with_items: decrypt_file_files
+  tags: [decrypt-file]
+
+- name: Rename decrypted file
+  shell: mv {{ item.dest }}.dec {{ item.dest }}
+  with_items: decrypt_file_files
+  tags: [decrypt-file]
+
+- name: Set file permissions
+  file:
+    path: '{{ item.dest }}'
+    owner: '{{ item.owner }}'
+    group: '{{ item.group|default(item.owner) }}'
+    mode: '{{ item.file_mode|default("0600") }}'
+  with_items: decrypt_file_files
+  tags: [decrypt-file]
+
+- name: Remove encrypted file
+  file:
+    path: '{{ item.dest }}.tmp'
+    state: 'absent'
+  with_items: decrypt_file_files
+  tags: [decrypt-file]

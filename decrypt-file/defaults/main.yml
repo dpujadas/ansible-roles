@@ -1,5 +1,5 @@
 ---
-# defaults file for ssh-key
+# defaults file for decrypt-file
 
 ssh_key_name: 'id_rsa'
 ssh_key_group: '{{ ssh_key_user }}'
