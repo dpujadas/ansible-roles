@@ -1,12 +1,6 @@
 ---
 # tasks file for apache
 
-- name: Install required packages
-  apt:
-    name: 'python-passlib'
-    state: 'installed'
-  tags: [apache,packages]
-
 - name: Install apache packages
   apt:
     name: '{{ item }}'
@@ -51,17 +45,6 @@
     mode: '0644'
   with_items: apache_sites
   notify: Reload apache
-  tags: [apache,configuration]
-
-- name: Setup htpasswd file
-  htpasswd:
-    path: '/etc/apache2/htpasswd'
-    name: '{{ item.user }}'
-    password: '{{ item.pass }}'
-    owner: 'root'
-    group: '{{ apache_group }}'
-    mode: '0640'
-  with_items: apache_auth_users
   tags: [apache,configuration]
 
 - name: Ensure apache is started and enabled on boot
