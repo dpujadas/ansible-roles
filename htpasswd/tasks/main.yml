@@ -1,0 +1,19 @@
+---
+# tasks file for htpasswd
+
+- name: Install required packages
+  apt:
+    name: 'python-passlib'
+    state: 'installed'
+  tags: [htpasswd,packages]
+
+- name: Setup htpasswd file
+  htpasswd:
+    path: '{{ htpasswd_file }}'
+    name: '{{ item.user }}'
+    password: '{{ item.pass }}'
+    owner: '{{ htpasswd_user }}'
+    group: '{{ htpasswd_group }}'
+    mode: '{{ htpasswd_mode }}'
+  with_items: htpasswd_users
+  tags: [htpasswd]

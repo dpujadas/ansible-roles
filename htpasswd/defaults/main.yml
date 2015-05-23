@@ -1,0 +1,7 @@
+---
+# defaults file for htpasswd
+
+htpasswd_users: []
+htpasswd_user: 'root'
+htpasswd_group: '{{ htpasswd_user }}'
+htpasswd_mode: '0640'
