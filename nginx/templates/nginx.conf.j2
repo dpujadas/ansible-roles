@@ -1,4 +1,4 @@
-user {{ nginx_user }};
+user {{ nginx_user }} {{ nginx_group }};
 worker_processes {{ nginx_worker_processes }};
 pid /var/run/nginx.pid;
 
