@@ -20,7 +20,7 @@
 - name: Configure newrelic_sysmond {{ newrelic_sysmond_conf_file }}
   ini_file:
     dest: '{{ newrelic_sysmond_conf_file }}'
-    section: sysmond
+    section: 'sysmond'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
     owner: 'newrelic'
