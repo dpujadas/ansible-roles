@@ -19,7 +19,7 @@
   cron:
     name: 'Backup {{ item.key }} profile'
     state: 'present'
-    job: 'silence-unless-failed duply {{ item.key }} backup'
+    job: '/usr/local/bin/silence-unless-failed /usr/local/bin/duply {{ item.key }} backup'
     special_time: '{{ item.value.cron }}'
     user: '{{ duplicity_user }}'
   with_dict: duplicity_profiles
