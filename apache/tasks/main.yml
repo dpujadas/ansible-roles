@@ -27,6 +27,16 @@
   notify: Restart apache
   tags: [apache,configuration]
 
+- name: Configure apache
+  template:
+    src: 'apache2.conf.j2'
+    dest: '/etc/apache2/apache2.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart apache
+  tags: [apache,configuration]
+
 - name: Disable default vhosts
   file:
     state: 'absent'
