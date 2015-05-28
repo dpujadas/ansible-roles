@@ -1,0 +1,39 @@
+---
+# tasks file for jenkins
+
+- name: Add jenkins apt key
+  apt_key:
+    url: '{{ jenkins_url_key }}'
+    state: 'present'
+  tags: [jenkins,packages]
+
+- name: Add jenkins repo
+  apt_repository:
+    state: 'present'
+    repo: '{{ jenkins_apt_repo }}'
+    update_cache: 'yes'
+  tags: [jenkins,packages]
+
+- name: Install jenkins
+  apt:
+    name: 'jenkins'
+    state: 'present'
+  tags: [jenkins,packages]
+
+- name: Configure jenkins {{ jenkins_conf_file }}
+  template:
+    src: 'default-jenkins.j2'
+    dest: '{{ jenkins_conf_file }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: 
+    - Restart jenkins 
+  tags: [jenkins,configuration]
+
+- name: Ensure jenkins is started and enabled at boot
+  service:
+    name: 'jenkins'
+    state: 'started'
+    enabled: 'yes'
+  tags: [jenkins,services]

@@ -1,0 +1,6 @@
+---
+# vars file for jenkins
+
+jenkins_url_key: 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
+jenkins_apt_repo: 'deb http://pkg.jenkins-ci.org/debian binary/'
+jenkins_conf_file: '/etc/default/jenkins'
