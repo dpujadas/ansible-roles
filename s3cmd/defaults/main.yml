@@ -1,0 +1,6 @@
+---
+# defaults file for s3cmd
+
+s3cmd_use_https: 'True'
+s3cmd_user: 'ubuntu'
+s3cmd_group: '{{ s3cmd_user }}'

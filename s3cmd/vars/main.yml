@@ -1,0 +1,6 @@
+---
+# vars file for s3cmd
+
+s3cmd_packages:
+  - s3cmd
+s3cmd_conf_file: '~{{ s3cmd_user }}/.s3cfg'

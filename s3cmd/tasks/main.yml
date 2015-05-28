@@ -1,0 +1,19 @@
+---
+# tasks file for s3cmd
+
+- name: Install the s3cmd packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: s3cmd_packages
+  tags: [s3cmd,packages]
+
+- name: Configure s3cmd
+  template:
+    src: 's3cfg.j2'
+    dest: '{{ s3cmd_conf_file }}'
+    owner: '{{ s3cmd_user }}'
+    group: '{{ s3cmd_group }}'
+    mode: '0600'
+  tags: [s3cmd,configuration]
