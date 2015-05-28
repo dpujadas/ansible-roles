@@ -6,13 +6,20 @@
     repo: '{{ php_ondrej_repo }}'
   tags: [php,packages]
 
-- name: Install the php packages
-  apt:
-    name: '{{ item }}'
-    state: 'present'
-    update_cache: 'yes'
-  with_items: php_packages
-  tags: [php,packages]
+- name: Include cli tasks
+  include: 'cli.yml'
+  when: php_cli
+  tags: [php,php-cli]
+
+- name: Include fpm tasks
+  include: 'fpm.yml'
+  when: php_fpm
+  tags: [php,php-fpm]
+
+- name: Include mod tasks
+  include: 'mod.yml'
+  when: php_mod
+  tags: [php,php-mod]
 
 - name: Install the php modules
   apt:
@@ -21,16 +28,3 @@
     update_cache: 'yes'
   with_items: php_modules
   tags: [php,packages]
-
-- name: Configure php cli
-  ini_file:
-    dest: '{{ php_cli_ini_file }}'
-    section: '{{ item.section }}'
-    option: '{{ item.option }}'
-    value: '{{ item.value }}'
-  with_items: php_cli_options
-  tags: [php,configuration]
-
-- name: Include php_type tasks
-  include: '{{ php_type }}.yml'
-  tags: [php]

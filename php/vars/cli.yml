@@ -1,0 +1,6 @@
+---
+# vars file for php_cli
+
+php_cli_packages:
+  - php5-cli
+php_cli_ini_file: '/etc/php5/cli/php.ini'

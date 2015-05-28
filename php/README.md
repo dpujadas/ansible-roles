@@ -1,12 +1,14 @@
 php
 ===
 
-This role installs and configures php (fpm and mod_apache).
+This role installs and configures php (cli, fpm and mod_apache).
 
 Role Variables
 --------------
 
-* **php_type:** PHP mode to install ('fpm' or 'mod')
+* **php_cli:** Install php_cli or not (default: true)
+* **php_fpm:** Install php_fpm or not (default: false)
+* **php_mod:** Install mod_apache or not (default: false)
 * **php_modules:** List of php modules to install (default: empty list)
 * **php_cli_options:** List of ini directives for php cli (default: empty list)
 * **php_mod_options:** List of ini directives for php mod_apache (default: empty list)
@@ -41,7 +43,7 @@ Role Variables
 Dependencies
 ------------
 
-* ansible-roles/apache (if php_type='mod')
+* ansible-roles/apache (if php_mod==true)
 
 Example Playbook
 ----------------
@@ -50,7 +52,7 @@ Example Playbook
       roles:
          - {
             role: php,
-            php_type: 'fpm'
+            php_fpm: true
         }
 
 License

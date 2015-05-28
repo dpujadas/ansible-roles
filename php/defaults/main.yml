@@ -1,7 +1,11 @@
 ---
 # defaults file for php
 
+php_cli: true
+php_fpm: false
+php_mod: false
 php_modules: []
+
 php_cli_options: []
 
 php_fpm_options: []

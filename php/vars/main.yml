@@ -2,6 +2,3 @@
 # vars file for php
 
 php_ondrej_repo: 'ppa:ondrej/php5'
-php_packages:
-  - php5-cli
-php_ini_file: '/etc/php5/cli/php.ini'

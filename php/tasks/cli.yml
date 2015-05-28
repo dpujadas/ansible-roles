@@ -1,0 +1,23 @@
+---
+# tasks file for php_cli
+
+- name: Include the php_cli variables
+  include_vars: "cli.yml"
+  tags: [php,php-cli]
+
+- name: Install the php_cli packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: php_cli_packages
+  tags: [php,php-cli,packages]
+
+- name: Configure php_cli
+  ini_file:
+    dest: '{{ php_cli_ini_file }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: php_cli_options
+  tags: [php,php-cli,configuration]
