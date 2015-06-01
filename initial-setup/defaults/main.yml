@@ -2,5 +2,8 @@
 # defaults file for initial-setup
 
 initial_setup_full_upgrade: false
+initial_setup_localdomain: 'localdomain'
+initial_setup_create_dns_record: false
+initial_setup_route53_ttl: '300'
 initial_setup_management_user: 'ubuntu'
 initial_setup_management_public_key: []

@@ -1,2 +1,5 @@
 ---
 # vars file for initial-setup
+
+initial_setup_required_packages:
+  - python-boto

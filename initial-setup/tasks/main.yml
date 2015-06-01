@@ -1,8 +1,15 @@
 ---
 # tasks file for initial-setup
 
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: initial_setup_required_packages
+  tags: [initial-setup,packages,hostname]
+
 - name: Set hostname
-  shell: hostnamectl set-hostname '{{ inventory_hostname }}'
+  shell: 'hostnamectl set-hostname "{{ inventory_hostname }}"'
   when: ansible_hostname != inventory_hostname
   register: set_hostname
   tags: [initial-setup,hostname]
@@ -13,13 +20,26 @@
   tags: [initial-setup,hostname]
 
 - name: Update /etc/hosts
-  lineinfile:
+  template:
+    src: 'hosts.j2'
     dest: '/etc/hosts'
-    regexp: '^127\.0\.0\.1'
-    line: '127.0.0.1 localhost {{ inventory_hostname }}'
     owner: 'root'
     group: 'root'
     mode: '0644'
+  tags: [initial-setup,hostname]
+
+- name: Create Route53 DNS record
+  route53:
+    command: 'create'
+    zone: '{{ initial_setup_localdomain }}'
+    record: '{{ inventory_hostname }}.{{ initial_setup_localdomain }}'
+    type: 'A'
+    ttl: '{{ initial_setup_route53_ttl }}'
+    value: '{{ ansible_default_ipv4.address }}'
+    overwrite: 'true'
+    aws_access_key: '{{ initial_setup_aws_access_key }}'
+    aws_secret_key: '{{ initial_setup_aws_secret_key }}'
+  when: initial_setup_create_dns_record
   tags: [initial-setup,hostname]
 
 - name: Update apt packages
