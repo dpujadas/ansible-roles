@@ -1,0 +1,5 @@
+{% if item.value.exclude is defined %}
+{% for line in item.value.exclude %}
+{{ line }}
+{% endfor %}
+{% endif %}
