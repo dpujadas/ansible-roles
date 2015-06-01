@@ -1,0 +1,6 @@
+---
+# vars file for mms-agent
+
+mms_agent_deb_url: 'https://mms.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager_2.0.4.1140-1_amd64.deb'
+mms_agent_deb_path: '/tmp/mms-agent.deb'
+mms_agent_config: '/etc/mongodb-mms/automation-agent.config'

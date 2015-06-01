@@ -1,0 +1,40 @@
+---
+# tasks file for mms-agent
+
+- name: Download MMS Automation Agent deb package
+  get_url:
+    url: '{{ mms_agent_deb_url }}'
+    dest: '{{ mms_agent_deb_path }}'
+  tags: [mms-agent,packages]
+
+- name: Install MMS Automation Agent deb package
+  apt:
+    deb: '{{ mms_agent_deb_path }}'
+  tags: [mms-agent,packages]
+
+- name: Ensure {{ mms_agent_data_dir }} exists and belongs to {{ mms_agent_user }}
+  file:
+    dest: '{{ mms_agent_data_dir }}'
+    state: 'directory'
+    owner: '{{ mms_agent_user }}'
+    group: '{{ mms_agent_group }}'
+    mode: '0755'
+  tags: [mms-agent]
+
+- name: Configure MMS Automation Agent {{ mms_agent_config }}
+  template:
+    src: 'automation-agent.config.j2'
+    dest: '{{ mms_agent_config }}'
+    owner: '{{ mms_agent_user }}'
+    group: '{{ mms_agent_group }}'
+    mode: '0600'
+  notify: 
+    - Restart mms-agent 
+  tags: [mms-agent,configuration]
+
+- name: Ensure mms-agent is started and enabled at boot
+  service:
+    name: 'mongodb-mms-automation-agent'
+    state: 'started'
+    enabled: 'yes'
+  tags: [mms-agent,services]

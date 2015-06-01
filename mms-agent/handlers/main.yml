@@ -1,0 +1,7 @@
+---
+# handlers file for mms-agent
+
+- name: Restart mms-agent
+  service:
+    name: 'mongodb-mms-automation-agent'
+    state: 'restarted'

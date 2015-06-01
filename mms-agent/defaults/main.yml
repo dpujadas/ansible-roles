@@ -1,0 +1,6 @@
+---
+# defaults file for mms-agent
+
+mms_agent_user: 'mongodb'
+mms_agent_group: '{{ mms_agent_user }}'
+mms_agent_data_dir: '/data'
