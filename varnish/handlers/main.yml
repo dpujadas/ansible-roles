@@ -1,0 +1,12 @@
+---
+# handlers file for varnish
+
+- name: Restart varnish
+  service:
+    name: 'varnish'
+    state: 'restarted'
+
+- name: Reload varnish
+  service:
+    name: 'varnish'
+    state: 'reloaded'

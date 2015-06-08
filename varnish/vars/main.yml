@@ -1,0 +1,5 @@
+---
+# vars file for varnish
+
+varnish_url_key: 'https://repo.varnish-cache.org/GPG-key.txt'
+varnish_url_repo: 'deb https://repo.varnish-cache.org/ubuntu/ {{ ansible_lsb.codename }} varnish-4.0'

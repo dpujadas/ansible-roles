@@ -1,0 +1,42 @@
+---
+# tasks file for varnish
+
+- name: Add varnish apt key
+  apt_key:
+    url: '{{ varnish_url_key }}'
+    state: 'present'
+  tags: [varnish,packages]
+
+- name: Add varnish repos
+  apt_repository:
+    state: 'present'
+    repo: '{{ varnish_url_repo }}'
+    update_cache: 'yes'
+  tags: [varnish,packages]
+
+- name: Install the latest varnish packages
+  apt:
+    name: 'varnish'
+    state: 'latest'
+  tags: [varnish,packages]
+
+- name: Set varnish defaults
+  template:
+    src: 'varnish.j2'
+    dest: '/etc/default/varnish'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  notify: Restart varnish
+  tags: [varnish,configuration]
+
+- name: Configure default vcl
+  template:
+    src: '{{ varnish_default_vcl }}'
+    dest: '/etc/varnish/default.vcl'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  when: varnish_default_vcl is defined
+  notify: Restart varnish
+  tags: [varnish,configuration]
