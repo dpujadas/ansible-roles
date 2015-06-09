@@ -14,9 +14,11 @@ http {
     types_hash_max_size {{ nginx_types_hash_max_size }};
     gzip on;
     gzip_disable "msie6";
-    {% for item in nginx_custom_directives -%}
-    {{ item.directive }} {{ item.value }};
+    {% if nginx_custom_directives is defined -%}
+    {% for key, value in nginx_custom_directives.iteritems() -%}
+    {{ key }} {{ value }};
     {% endfor %}
+    {% endif %}
 
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;

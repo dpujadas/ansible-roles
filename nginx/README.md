@@ -16,7 +16,7 @@ Role Variables
 * **nginx_tcp_nodelay:** Enables or disables the use of the TCP_NODELAY option (default: 'on')
 * **nginx_keepalive_timeout:** Sets a timeout during which a keep-alive client connection will stay open on the server side (default: '65')
 * **nginx_types_hash_max_size:** Sets the maximum size of the types hash tables (default: '2048')
-* **nginx_custom_directives:** List of custom directives (directive / value) to apply (default: empty list)
+* **nginx_custom_directives:** List of custom directives (directive: value) to apply (default: empty)
 * **nginx_access_log:** Path to access log (default: 'off')
 * **nginx_error_log:** Path to error log (default: '/var/log/nginx/error.log')
 * **nginx_doc_root:** Directory where apps will be installed (Ex: '/var/www')
@@ -29,8 +29,8 @@ Example Playbook
     - hosts: servers
       vars:
         custom_directives:
-          - directive: 'client_max_body_size'
-            value: '20M'
+          client_max_body_size: '20M'
+          ssl_session_timeout: '10m'
         sites:
           - template: 'path-to-template-1.j2'
             server_name: 'www.site.com'
