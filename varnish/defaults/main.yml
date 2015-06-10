@@ -1,2 +1,7 @@
 ---
 # defaults file for varnish
+
+varnish_listen_address: ''
+varnish_listen_port: '6081'
+varnish_admin_listen_address: '127.0.0.1'
+varnish_admin_listen_port: '6082'
