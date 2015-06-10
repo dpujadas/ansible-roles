@@ -1,6 +1,7 @@
 ---
 # defaults file for php
 
+php_use_ondrej: true
 php_cli: true
 php_fpm: false
 php_mod: false

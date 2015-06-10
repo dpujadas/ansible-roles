@@ -4,6 +4,7 @@
 - name: Install ondrej repo for latest PHP packages
   apt_repository:
     repo: '{{ php_ondrej_repo }}'
+  when: php_use_ondrej
   tags: [php,packages]
 
 - name: Include cli tasks

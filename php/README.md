@@ -6,6 +6,7 @@ This role installs and configures php (cli, fpm and mod_apache).
 Role Variables
 --------------
 
+* **php_use_ondrej:** Install ondrej repo or not (default: true)
 * **php_cli:** Install php_cli or not (default: true)
 * **php_fpm:** Install php_fpm or not (default: false)
 * **php_mod:** Install mod_apache or not (default: false)
