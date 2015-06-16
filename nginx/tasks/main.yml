@@ -1,35 +1,26 @@
 ---
 # tasks file for nginx
 
-- name: Add nginx apt key
-  apt_key:
-    url: 'http://nginx.org/keys/nginx_signing.key'
-    state: 'present'
-  tags: [nginx,packages]
+- name: Include nginx-community tasks
+  include: "community.yml"
+  when: nginx_source == 'community'
+  tags: [nginx,nginx-community]
 
-- name: Add nginx repos
-  apt_repository:
-    state: 'present'
-    repo: '{{ item }}'
-    update_cache: 'yes'
-  with_items:
-    - 'deb http://nginx.org/packages/{{ nginx_version }}/ubuntu/ {{ ansible_lsb.codename }} nginx'
-    - 'deb-src http://nginx.org/packages/{{ nginx_version }}/ubuntu/ {{ ansible_lsb.codename }} nginx'
-  tags: [nginx,packages]
+- name: Include nginx-openresty tasks
+  include: "openresty.yml"
+  when: nginx_source == 'openresty'
+  tags: [nginx,nginx-openresty]
 
-- name: Install the latest nginx packages
-  apt:
-    name: 'nginx'
-    state: 'latest'
-  tags: [nginx,packages]
-
-- name: Ensure sites-enabled directory exists
+- name: Ensure included directories exist
   file:
     state: 'directory'
-    path: '/etc/nginx/sites-enabled'
+    path: '/etc/nginx/{{ item }}'
     owner: 'root'
     group: 'root'
     mode: '0755'
+  with_items:
+    - sites-enabled
+    - conf.d
   tags: [nginx,configuration]
 
 - name: Configure nginx server

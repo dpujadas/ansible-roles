@@ -1,2 +1,13 @@
 ---
 # vars file for nginx
+
+nginx_pid_file: '/var/run/nginx.pid'
+
+nginx_openresty_url: 'http://openresty.org/download/ngx_openresty-1.7.10.1.tar.gz'
+nginx_openresty_required_packages:
+  - libreadline-dev
+  - libncurses5-dev
+  - libpcre3-dev
+  - libssl-dev
+  - make
+  - build-essential

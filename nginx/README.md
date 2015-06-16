@@ -1,12 +1,13 @@
 nginx
 =====
 
-This role installs nginx [Pre-Built Packages](http://nginx.org/en/linux_packages.html), leaving the server without predefined sites.
+This role installs and configures nginx, using community packages or openresty source code.
 
 Role Variables
 --------------
 
-* **nginx_version:** Package version to install, ex: mainline (default: '')
+* **nginx_source:** Which source to use: [community](http://nginx.org) or [openresty](http://openresty.org/) (default: 'community')
+* **nginx_version:** Package community version to install, ex: mainline (default: '')
 * **nginx_worker_processes:** Number of worker processes (default: '1')
 * **nginx_worker_connections:** Maximum number of simultaneous connections that can be opened by a worker process (default: '1024')
 * **nginx_user:** Defines user credentials used by worker processes (default: 'www-data')

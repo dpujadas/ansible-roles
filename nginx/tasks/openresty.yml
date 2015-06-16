@@ -1,0 +1,70 @@
+---
+# tasks file for openresty
+
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: nginx_openresty_required_packages
+  tags: [nginx,nginx-openresty,packages]
+
+- name: Download ngx_openresty
+  get_url:
+    url: '{{ nginx_openresty_url }}'
+    dest: '/tmp'
+  register: nginx_openresty_download
+  tags: [nginx,nginx-openresty,packages]
+
+- name: Set nginx_openresty_basename
+  set_fact:
+    nginx_openresty_basename: '{{ nginx_openresty_download.dest | basename }}'
+  tags: [nginx,nginx-openresty]
+
+- name: Set nginx_openresty_dirname
+  set_fact:
+    nginx_openresty_dirname: '/tmp/{{ nginx_openresty_basename.replace(".tar.gz","") }}'
+  tags: [nginx,nginx-openresty]
+
+- name: Uncompress ngx_openresty
+  unarchive:
+    src: '/tmp/{{ nginx_openresty_basename }}'
+    dest: '/tmp'
+    copy: 'no'
+    creates: '{{ nginx_openresty_dirname }}'
+  tags: [nginx,nginx-openresty,packages]
+
+- name: Compile and install openresty
+  shell: './configure --with-pcre-jit --with-ipv6 && make && make install'
+  args:
+    chdir: '{{ nginx_openresty_dirname }}'
+    creates: '/usr/local/openresty/nginx/sbin/nginx'
+  tags: [nginx,nginx-openresty,packages]
+
+- name: Create config link
+  file:
+    state: link
+    src: '/usr/local/openresty/nginx/conf'
+    path: '/etc/nginx'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [nginx,nginx-openresty,configuration]
+
+- name: Create logs link
+  file:
+    state: link
+    src: '/usr/local/openresty/nginx/logs'
+    path: '/var/log/nginx'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [nginx,nginx-openresty,configuration.j2]
+
+- name: Create init script
+  template:
+    src: 'openresty-init.j2'
+    dest: '/etc/init.d/nginx'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [nginx,nginx-openresty,configuration]

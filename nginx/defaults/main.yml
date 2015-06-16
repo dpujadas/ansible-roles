@@ -1,6 +1,7 @@
 ---
 # defaults file for nginx
 
+nginx_source: 'community'
 nginx_version: ''
 nginx_worker_processes: '1'
 nginx_worker_connections: '1024'

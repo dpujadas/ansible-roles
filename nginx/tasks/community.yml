@@ -1,0 +1,25 @@
+---
+# tasks file for nginx-community
+
+- name: Add nginx apt key
+  apt_key:
+    url: 'http://nginx.org/keys/nginx_signing.key'
+    state: 'present'
+  tags: [nginx,nginx-community,packages]
+
+- name: Add nginx repos
+  apt_repository:
+    state: 'present'
+    repo: '{{ item }}'
+    update_cache: 'yes'
+  with_items:
+    - 'deb http://nginx.org/packages/{{ nginx_version }}/ubuntu/ {{ ansible_lsb.codename }} nginx'
+    - 'deb-src http://nginx.org/packages/{{ nginx_version }}/ubuntu/ {{ ansible_lsb.codename }} nginx'
+  tags: [nginx,nginx-community,packages]
+
+- name: Install the latest nginx packages
+  apt:
+    name: 'nginx'
+    state: 'latest'
+  tags: [nginx,nginx-community,packages]
+
