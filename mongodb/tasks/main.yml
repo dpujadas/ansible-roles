@@ -1,0 +1,49 @@
+---
+# tasks file for mongodb
+
+- name: Include the mongodb 2.6 version variables
+  include_vars: "2.6.yml"
+  when: mongodb_version == "2.6"
+  tags: [mongodb]
+
+- name: Include the mongodb 3.0 version variables
+  include_vars: "3.0.yml"
+  when: mongodb_version == "3.0"
+  tags: [mongodb]
+
+- name: Add mongodb apt key
+  apt_key:
+    url: '{{ mongodb_apt_key }}'
+    state: 'present'
+  tags: [mongodb,packages]
+
+- name: Add mongodb repos
+  apt_repository:
+    state: 'present'
+    repo: '{{ mongodb_repo }}'
+    update_cache: 'yes'
+  tags: [mongodb,packages]
+
+- name: Install the mongodb packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items: mongodb_packages
+  tags: [mongodb,packages]
+
+- name: Configure mongodb server
+  template:
+    src: 'mongod.conf.j2'
+    dest: '/etc/mongod.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart mongod
+  tags: [mongodb,configuration]
+
+- name: Ensure mongodb is started and enabled at boot
+  service:
+    name: 'mongod'
+    state: 'started'
+    enabled: 'yes'
+  tags: [mongodb,services]

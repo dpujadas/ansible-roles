@@ -1,0 +1,10 @@
+---
+# vars file for mongodb
+
+mongodb_apt_key: 'http://docs.mongodb.org/10gen-gpg-key.asc'
+mongodb_packages:
+  - 'mongodb-org={{ mongodb_version }}{{ mongodb_subversion }}'
+  - 'mongodb-org-server={{ mongodb_version }}{{ mongodb_subversion }}'
+  - 'mongodb-org-shell={{ mongodb_version }}{{ mongodb_subversion }}'
+  - 'mongodb-org-mongos={{ mongodb_version }}{{ mongodb_subversion }}'
+  - 'mongodb-org-tools={{ mongodb_version }}{{ mongodb_subversion }}'
