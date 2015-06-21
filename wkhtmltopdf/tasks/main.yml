@@ -1,0 +1,15 @@
+---
+# tasks file for wkhtmltopdf
+
+- name: Download wkhtmltopdf deb package
+  get_url:
+    url: '{{ wkhtmltopdf_url }}'
+    dest: '/tmp'
+  register: wkhtmltopdf_download
+  tags: [wkhtmltopdf,packages]
+
+- name: Install wkhtmltopdf deb package
+  apt:
+    deb: '{{ wkhtmltopdf_download.dest }}'
+  when: wkhtmltopdf_download.changed
+  tags: [wkhtmltopdf,packages]
