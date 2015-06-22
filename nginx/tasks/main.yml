@@ -11,6 +11,15 @@
   when: nginx_source == 'openresty'
   tags: [nginx,nginx-openresty]
 
+- name: Ensure config directory exist and has proper permissions
+  file:
+    state: 'directory'
+    path: '/etc/nginx'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [nginx,configuration]
+
 - name: Ensure included directories exist
   file:
     state: 'directory'
