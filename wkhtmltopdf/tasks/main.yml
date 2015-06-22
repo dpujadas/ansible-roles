@@ -11,5 +11,4 @@
 - name: Install wkhtmltopdf deb package
   apt:
     deb: '{{ wkhtmltopdf_download.dest }}'
-  when: wkhtmltopdf_download.changed
   tags: [wkhtmltopdf,packages]
