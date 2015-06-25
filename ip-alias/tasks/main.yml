@@ -1,0 +1,14 @@
+---
+# tasks file for ip-alias
+
+- name: Add ip alias
+  command: '{{ ip_alias_command }}'
+  when: ip_alias_address not in ansible_all_ipv4_addresses
+  tags: [ip-alias]
+
+- name: Configure ip alias at boot
+  lineinfile:
+    dest: '/etc/rc.local'
+    insertbefore: 'exit 0'
+    line: '{{ ip_alias_command }}'
+  tags: [ip-alias]

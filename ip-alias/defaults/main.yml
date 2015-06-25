@@ -1,0 +1,5 @@
+---
+# defaults file for ip-alias
+
+ip_alias_device: 'eth0'
+ip_alias_netmask: '24'

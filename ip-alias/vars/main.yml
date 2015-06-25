@@ -1,0 +1,4 @@
+---
+# vars file for ip-alias
+
+ip_alias_command: '/sbin/ip addr add dev {{ ip_alias_device }} {{ ip_alias_address }}/{{ ip_alias_netmask }}'
