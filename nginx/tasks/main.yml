@@ -45,7 +45,7 @@
 - name: Enable custom configurations
   template:
     src: '{{ item.template }}'
-    dest: '/etc/nginx/conf.d/{{ item.conf_name }}.conf'
+    dest: '/etc/nginx/conf.d/{{ item.conf_name }}'
     owner: 'root'
     group: 'root'
     mode: '0644'
