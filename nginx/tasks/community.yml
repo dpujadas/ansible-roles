@@ -23,3 +23,12 @@
     state: 'latest'
   tags: [nginx,nginx-community,packages]
 
+- name: Ensure config directory exists and has proper permissions
+  file:
+    state: 'directory'
+    path: '/etc/nginx'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [nginx,configuration]
+
