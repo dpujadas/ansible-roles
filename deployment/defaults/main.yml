@@ -11,3 +11,4 @@ deployment_packages:
 deployment_extra_packages: []
 deployment_authorized_keys: []
 deployment_root_type: 'file'
+deployment_extra_dirs: []

@@ -12,6 +12,7 @@ Role Variables
 * **deployment_root_type:** Indicates the type of node where code will be deployed. Possible values: 'file', 'nfs' (default: 'file')
 * **deployment_extra_packages:** List of extra packages needed for deployment, appended to deployment_packages list (default: empty list)
 * **deployment_authorized_keys:** If set, will be added to deployment_user's authorized_keys.
+* **deployment_extra_dirs:** List of directories needed for deployment process which must belog to deployment_user (defaul: empty list)
 * **deployment_type_php:** Indicates if the deployment environment uses PHP in order to include php-related stuff (default: false).
 * **deployment_github_token:** If set, will be used by composer to download code from Github.
 * **deployment_use_php_fpm:** Indicates if server is using php-fpm (default: false)

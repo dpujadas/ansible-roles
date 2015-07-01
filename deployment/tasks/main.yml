@@ -17,6 +17,16 @@
   when: deployment_root_type != 'nfs'
   tags: [deployment]
 
+- name: Ensure {{ deployment_extra_dirs }} exist and belong to {{ deployment_user }}
+  file:
+    dest: '{{ item }}'
+    state: 'directory'
+    owner: '{{ deployment_user }}'
+    group: '{{ deployment_group }}'
+    mode: '0775'
+  with_items: deployment_extra_dirs
+  tags: [deployment]
+
 - name: Install some packages
   apt:
     name: '{{ item }}'
