@@ -1,0 +1,172 @@
+#!/bin/bash
+ 
+###############################################################################
+# CONFIG
+AWS=/usr/local/bin/aws
+AWS_ELASTIC_IP_ALLOC_ID=$1
+AWS_PRIVATE_IP=$2
+AWS_ELASTIC_IP=`${AWS} ec2 describe-addresses --allocation-ids ${AWS_ELASTIC_IP_ALLOC_ID} --query 'Addresses[*].PublicIp' --output text`
+AWS_INSTANCE_ID=`/usr/bin/curl --silent http://169.254.169.254/latest/meta-data/instance-id`
+###############################################################################
+
+###############################################################################
+# For testing purposes delete OCF_ROOT after testing
+OCF_ROOT=/usr/lib/ocf/
+#
+# INIT
+: ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/resource.d/heartbeat}
+if [ -f ${OCF_FUNCTIONS_DIR}/.ocf-shellfuncs ]; then
+  . ${OCF_FUNCTIONS_DIR}/.ocf-shellfuncs
+fi
+ 
+USAGE="usage: $0 allocation_id private_ip {start|stop|status|monitor|meta-data}";
+###############################################################################
+ 
+meta_data() {
+    cat <<END
+<?xml version="1.0"?>
+<!DOCTYPE resource-agent SYSTEM "ra-api-1.dtd">
+<resource-agent name="ElasticIP">
+<version>1.0</version>
+<longdesc lang="en">
+This script manages Amazon EC2 Elastic IP addresses.
+</longdesc>
+<shortdesc lang="en">Manages Amazon EC2 Elastic IP addresses</shortdesc>
+
+<parameters></parameters>
+
+<actions>
+  <action name="start"   timeout="20s" />
+  <action name="stop"    timeout="20s" />
+  <action name="monitor"  timeout="20s" />
+  <action name="meta-data"  timeout="5s" />
+</actions>
+</resource-agent>
+END
+}
+
+ip_already_associated() {
+  ASSOCIATED_INSTANCE=`${AWS} ec2 describe-addresses --public-ips "${AWS_ELASTIC_IP}" --query 'Addresses[*].InstanceId' --output text`
+  if [ "${ASSOCIATED_INSTANCE}" == "${AWS_INSTANCE_ID}" ]; then
+    ocf_log info "Elastic IP address already associated to the node"
+    return $OCF_SUCCESS
+  else
+    ocf_log err "Elastic IP address not associated to the node"
+    return $OCF_ERR_GENERIC
+  fi
+}
+
+ip_start() {
+  ip_validate_all || exit $?
+ 
+  if ip_monitor; then
+    ocf_log info "Resource is already running"
+    return $OCF_SUCCESS
+  fi
+
+  ${AWS} ec2 associate-address --allocation-id ${AWS_ELASTIC_IP_ALLOC_ID} --private-ip-address ${AWS_PRIVATE_IP} --allow-reassociation --instance-id ${AWS_INSTANCE_ID} > /dev/null
+ 
+  if [ $? -eq 1 ]; then
+    ocf_log info "An error occurred when starting the resource"
+    return $OCF_ERR_GENERIC
+  fi
+ 
+  while ! ip_monitor; do
+    ocf_log debug "Resource has not started yet, waiting"
+    sleep 1
+  done
+ 
+  ocf_log info "Elastic IP sucessfully associated with the node"
+  return $OCF_SUCCESS
+}
+ 
+ip_stop() {
+  ip_validate_all || exit $?
+ 
+  if ip_monitor; then
+    ocf_log debug "Resource is currently running"
+  else
+    ocf_log info "Resource is already stopped"
+    return $OCF_SUCCESS
+  fi
+
+  ASSOCIATION_ID=`${AWS} ec2 describe-addresses --public-ips "${AWS_ELASTIC_IP}" --query 'Addresses[*].AssociationId' --output text`
+  ${AWS} ec2 disassociate-address --association-id ${ASSOCIATION_ID} > /dev/null
+ 
+  if [ $? -eq 0 ]; then
+      while ip_monitor; do
+        ocf_log debug "Resource has not stopped yet, waiting"
+        sleep 1
+      done
+      ocf_log info "Resource is stopped"
+  else
+    ocf_log info "An error occurred when stopping the resource"
+    exit $OCF_ERR_GENERIC
+  fi
+ 
+  return $OCF_SUCCESS
+}
+ 
+ip_monitor() {
+  ip_validate_all || exit $?
+ 
+  if ip_already_associated; then
+    ping -c 1 ${AWS_ELASTIC_IP} > /dev/null
+    if [ $? -eq 0 ]; then
+      ocf_log info "Elastic IP responding to ping test, resource test sucessful"
+      return $OCF_SUCCESS
+    else
+      ocf_log err "Elastic IP not responding to ping test, resource test failed"
+      return $OCF_ERR_GENERIC
+    fi
+  else
+    ocf_log debug "Resource not running"
+    return $OCF_NOT_RUNNING
+  fi
+ 
+  return $OCF_SUCCESS
+}
+
+ip_validate_all() {
+  which ${AWS} > /dev/null
+ 
+  if [ $? -eq 1 ]; then
+    ocf_log info "AWS command line tools unavailable"
+    return $OCF_ERR_INSTALLED
+  elif [ -z "$AWS_INSTANCE_ID" ]; then
+    ocf_log info "AWS_INSTANCE_ID env variable not set"
+    return $OCF_ERR_CONFIGURED
+  elif [ -z "$AWS_ELASTIC_IP" ]; then
+    ocf_log info "AWS_ELASTIC_IP env variable not set"
+    return $OCF_ERR_CONFIGURED
+  elif [ -z "$AWS_ELASTIC_IP_ALLOC_ID" ]; then
+    ocf_log info "AWS_ELASTIC_IP_ALLOC_ID env variable not set"
+    return $OCF_ERR_CONFIGURED
+  elif [ -z "$AWS_PRIVATE_IP" ]; then
+    ocf_log info "AWS_PRIVATE_IP env variable not set"
+    return $OCF_ERR_CONFIGURED
+  fi
+  return $OCF_SUCCESS
+}
+
+usage() {
+  echo $USAGE >&2
+  return $1
+}
+ 
+if [ $# -ne 3 ]; then
+  usage $OCF_ERR_ARGS
+fi
+ 
+case $3 in
+  meta-data)          meta_data;;
+  start)              ip_start;;
+  stop)               ip_stop;;
+  status)             ip_monitor;; # Status is deprecated, monitor replaces it.
+  monitor)            ip_monitor;;
+  validate-all)       ip_validate_all;;
+  usage)              usage $OCF_SUCCESS;;
+  *)                  usage $OCF_ERR_UNIMPLEMENTED;;
+esac
+ 
+exit $?

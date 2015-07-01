@@ -1,0 +1,7 @@
+---
+# handlers file for heartbeat
+
+- name: Restart heartbeat
+  service:
+    name: 'heartbeat'
+    state: 'restarted'

@@ -1,0 +1,6 @@
+logfacility daemon
+ucast eth0 {{ heartbeat_partner_ip }}
+auto_failback {{ heartbeat_auto_failback }}
+{% for node in heartbeat_nodes %}
+node {{ node }}
+{% endfor %}

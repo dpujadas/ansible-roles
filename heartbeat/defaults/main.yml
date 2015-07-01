@@ -1,0 +1,5 @@
+---
+# defaults file for heartbeat
+
+heartbeat_custom_resources: []
+heartbeat_auto_failback: 'off'
