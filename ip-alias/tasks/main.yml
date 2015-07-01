@@ -1,8 +1,18 @@
 ---
 # tasks file for ip-alias
 
+- name: Get addresses assigned to interface_id
+  shell: /usr/local/bin/aws ec2 describe-network-interfaces --network-interface-id {{ ip_alias_network_interface_id }} --query 'NetworkInterfaces[*].PrivateIpAddresses[*].PrivateIpAddress' --output text | tr -s '\t' '\n'
+  register: ip_alias_assigned_ips
+  tags: [ip-alias]
+
+- name: Assign private ip address to interface_id
+  shell: /usr/local/bin/aws ec2 assign-private-ip-addresses --network-interface-id {{ ip_alias_network_interface_id }} --private-ip-addresses {{ ip_alias_address }}
+  when: ip_alias_address not in ip_alias_assigned_ips.stdout_lines
+  tags: [ip-alias]
+
 - name: Add ip alias
-  command: '{{ ip_alias_command }}'
+  shell: '{{ ip_alias_command }}'
   when: ip_alias_address not in ansible_all_ipv4_addresses
   tags: [ip-alias]
 

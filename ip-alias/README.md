@@ -10,6 +10,11 @@ Role Variables
 * **ip_alias_netmask:** Secondary address netmask (default: '24')
 * **ip_alias_device:** Device to add the secondary address (default: 'eth0')
 
+Dependencies
+------------
+
+* dpujadas/awscli (with the following permissions: "ec2:DescribeNetworkInterfaces", "ec2:AssignPrivateIpAddresses")
+
 Example Playbook
 ----------------
 
