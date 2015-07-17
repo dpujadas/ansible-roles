@@ -3,3 +3,4 @@
 
 initial_setup_required_packages:
   - python-boto
+initial_setup_swap_file: '/mnt/swapfile.swap'
