@@ -1,0 +1,5 @@
+---
+# defaults file for elasticsearch
+
+elasticsearch_major_version: '1.7'
+elasticsearch_default_options: []

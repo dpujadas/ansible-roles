@@ -1,0 +1,9 @@
+---
+# vars file for elasticsearch
+
+elasticsearch_required_packages:
+  - openjdk-7-jre-headless
+elasticsearch_url_key: 'https://packages.elastic.co/GPG-KEY-elasticsearch'
+elasticsearch_apt_repo: 'deb http://packages.elastic.co/elasticsearch/{{ elasticsearch_major_version }}/debian stable main'
+elasticsearch_config:
+  cluster.name: '{{ elasticsearch_cluster_name }}'

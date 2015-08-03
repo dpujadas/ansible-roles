@@ -1,0 +1,55 @@
+---
+# tasks file for elasticsearch
+
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: elasticsearch_required_packages
+  tags: [elasticsearch,packages]
+
+- name: Add elasticsearch apt key
+  apt_key:
+    url: '{{ elasticsearch_url_key }}'
+    state: present
+  tags: [elasticsearch,packages]
+
+- name: Add elasticsearch repo
+  apt_repository:
+    repo: '{{ elasticsearch_apt_repo }}'
+    state: 'present'
+    update_cache: 'yes'
+  tags: [elasticsearch,packages]
+
+- name: Install elasticsearch package
+  apt:
+    name: 'elasticsearch'
+    state: 'present'
+  tags: [elasticsearch,packages]
+
+- name: Set elasticsearch defaults
+  ini_file:
+    dest: '/etc/default/elasticsearch'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: elasticsearch_default_options
+  notify: Restart elasticsearch
+  tags: [elasticsearch,configuration]
+
+- name: Configure elasticsearch
+  template:
+    src: 'elasticsearch.yml.j2'
+    dest: '/etc/elasticsearch/elasticsearch.yml'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart elasticsearch
+  tags: [elasticsearch,configuration]
+
+- name: Ensure elasticsearch is started and enabled on boot
+  service:
+    name: 'elasticsearch'
+    state: 'started'
+    enabled: 'yes'
+  tags: [elasticsearch,services]
