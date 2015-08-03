@@ -27,11 +27,11 @@
   notify: Restart newrelic
   tags: [newrelic,newrelic-apm,configuration]
 
-- name: Ensure newrelic-daemon is started and enabled on boot
+- name: Ensure newrelic-daemon is on desired state
   service:
     name: 'newrelic-daemon'
-    state: 'started'
-    enabled: 'yes'
+    state: '{{ newrelic_state }}'
+    enabled: '{{ newrelic_enabled }}'
   tags: [newrelic,newrelic-apm,services]
 
 - name: Install newrelic PHP agent
