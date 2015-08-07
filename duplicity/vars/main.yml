@@ -3,4 +3,4 @@
 
 duplicity_required_packages:
   - python-boto
-duplicity_duply_url: 'http://sourceforge.net/projects/ftplicity/files/latest/download?source=files'
+duplicity_duply_url: 'http://sourceforge.net/projects/ftplicity/files/duply%20%28simple%20duplicity%29/1.9.x/duply_1.9.2.tgz/download?source=files'

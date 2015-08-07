@@ -35,8 +35,7 @@
 
 - name: Install duply executable
   command: '/bin/tar -C /usr/local/bin/ -zxvf /tmp/{{ duplicity_duply_basename }} {{ duplicity_duply_basename.replace(".tgz","") }}/duply --strip-components=1'
-  args:
-    creates: '/usr/local/bin/duply'
+  when: duplicity_duply_download.changed
   tags: [duplicity,packages]
 
 - name: Create profiles
