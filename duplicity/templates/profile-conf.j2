@@ -1,8 +1,8 @@
 GPG_PW='{{ duplicity_gpg_pass }}'
 TARGET='s3+http://{{ duplicity_aws_bucket }}/{{ item.key }}'
-TARGET_USER='{{ duplicity_aws_user }}'
-TARGET_PASS='{{ duplicity_aws_pass }}'
 SOURCE='{{ item.value.source }}'
 MAX_AGE={{ item.value.max_age }}
 MAX_FULLBKP_AGE={{ item.value.max_fullbkp_age }}
 DUPL_PARAMS="$DUPL_PARAMS --full-if-older-than $MAX_FULLBKP_AGE "
+export AWS_ACCESS_KEY_ID='{{ duplicity_aws_user }}'
+export AWS_SECRET_ACCESS_KEY='{{ duplicity_aws_pass }}'
