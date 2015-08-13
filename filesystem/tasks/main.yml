@@ -3,14 +3,17 @@
 
 - name: Ensure device is formatted
   filesystem:
-    dev: '{{ filesystem_device }}'
-    fstype: '{{ filesystem_type }}'
+    dev: '{{ item.device }}'
+    fstype: '{{ item.type }}'
+  with_items: filesystem_fs
   tags: [filesystem]
 
 - name: Ensure volume is mounted
   mount:
-    name: '{{ filesystem_mountpoint }}'
-    src: '{{ filesystem_device }}'
-    fstype: '{{ filesystem_type }}'
+    name: '{{ item.mountpoint }}'
+    src: '{{ item.device }}'
+    fstype: '{{ item.type }}'
+    opts: '{{ item.opts|default("defaults,nobootwait") }}'
     state: 'mounted'
+  with_items: filesystem_fs
   tags: [filesystem]
