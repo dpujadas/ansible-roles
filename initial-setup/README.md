@@ -7,6 +7,7 @@ Role Variables
 --------------
 
 * **initial_setup_full_upgrade:** Perform a full server upgrade (default: false)
+* **initial_setup_timezone:** Server's timezone (default: '')
 * **initial_setup_management_user:** Management user (default: 'ubuntu')
 * **initial_setup_management_public_key:** Management user's public key (default: empty)
 * **initial_setup_create_dns_record:** Create Route53 DNS record or not (default: false)

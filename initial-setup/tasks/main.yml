@@ -54,6 +54,15 @@
   when: initial_setup_full_upgrade
   tags: [initial-setup,apt]
 
+- name: Set the correct timezone
+  file:
+    src: '/usr/share/zoneinfo/{{ initial_setup_timezone }}'
+    dest: '/etc/localtime'
+    state: 'link'
+    force: 'yes'
+  when: (initial_setup_timezone is defined) and (initial_setup_timezone)
+  tags: [initial-setup,ntp]
+
 - name: Install ntp server
   apt:
     name: 'ntp'
