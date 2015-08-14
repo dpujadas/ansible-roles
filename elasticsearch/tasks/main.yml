@@ -47,6 +47,23 @@
   notify: Restart elasticsearch
   tags: [elasticsearch,configuration]
 
+- name: Get installed Elasticsearch plugins list
+  shell: bin/plugin -l
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
+  changed_when: false
+  register: elasticsearch_installed_plugins
+  tags: [elasticsearch,plugins]
+
+- name: Install Elasticsearch plugins
+  shell: bin/plugin install {{ item.path }}
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
+  with_items: '{{ elasticsearch_install_plugins }}'
+  when: "'- {{ item.name }}' not in elasticsearch_installed_plugins.stdout"
+  notify: Restart elasticsearch
+  tags: [elasticsearch,plugins]
+
 - name: Ensure elasticsearch is started and enabled on boot
   service:
     name: 'elasticsearch'

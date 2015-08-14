@@ -1,1 +1,21 @@
-{{ elasticsearch_config | to_nice_yaml }}
+cluster.name: {{ elasticsearch_cluster_name }}
+node.name: {{ elasticsearch_node_name }}
+
+{% if 'cloud-aws' in elasticsearch_install_plugins|map(attribute='name')|list %}
+discovery:
+  type: ec2
+{% if elasticsearch_plugin_aws_tags is defined %}
+  ec2:
+    tag:
+{% for tags in elasticsearch_plugin_aws_tags %}
+{% for k, v in tags.iteritems() %}
+      {{ k }}: {{ v }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+cloud:
+  aws:
+    access_key: {{ elasticsearch_plugin_aws_access_key }}
+    secret_key: {{ elasticsearch_plugin_aws_secret_key }}
+    region: {{ elasticsearch_plugin_aws_region }}
+{% endif %}
