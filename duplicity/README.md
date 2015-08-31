@@ -13,7 +13,7 @@ Role Variables
   * **max_fullbkp_age:** Max time from last full backup (Ex: '2W')
   * **cron:** Special time for cronjob (Ex: 'daily')
 * **duplicity_gpg_pass:** GPG pass to encrypt backups (Ex: 'SecretPass')
-* **duplicity_aws_bucket:** AWS bucket where backups will be uploaded (Ex: 'duplicity-bucket')
+* **duplicity_aws_bucket:** AWS bucket endpoint where backups will be uploaded (Ex: 's3-eu-west-1.amazonaws.com/duplicity-bucket')
 * **duplicity_aws_user:** ACCESS_KEY_ID with read/write privileges to the bucket
 * **duplicity_aws_pass:** SECRET_ACCESS_KEY with read/write privileges to the bucket
 
