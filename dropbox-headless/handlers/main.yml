@@ -1,0 +1,7 @@
+---
+# handlers file for dropbox-headless
+
+- name: Restart dropbox
+  service:
+    name: 'dropbox'
+    state: 'restarted'

@@ -1,0 +1,66 @@
+---
+# tasks file for dropbox-headless
+
+- name: Download dropbox for linux
+  get_url:
+    url: '{{ dropbox_headless_url }}'
+    dest: '/tmp'
+  register: dropbox_headless_download
+  tags: [dropbox-headless,packages]
+
+- name: Untar dropbox file
+  unarchive:
+    copy: 'no'
+    src: '{{ dropbox_headless_download.dest }}'
+    dest: '{{ dropbox_headless_install_dir }}'
+  tags: [dropbox-headless,packages]
+
+- name: Find dropbox executable
+  shell: find {{ dropbox_headless_install_dir }} -type f -executable -name dropbox
+  register: dropbox_executable
+  changed_when: false
+  failed_when: dropbox_executable.stdout == ''
+  tags: [dropbox-headless]
+
+- name: Set executable path
+  set_fact:
+    dropbox_headless_exec: '{{ dropbox_executable.stdout }}'
+  tags: [dropbox-headless]
+
+- name: Create logfile with correct permissions
+  file:
+    state: 'touch'
+    path: '{{ dropbox_headless_logfile }}'
+    owner: '{{ dropbox_headless_user }}'
+    group: 'syslog'
+    mode: '0774'
+  tags: [dropbox-headless]
+
+- name: Create init script
+  template:
+    src: 'dropbox-init.j2'
+    dest: '/etc/init.d/dropbox'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [dropbox-headless,configuration]
+
+- name: Ensure dropbox is started and enabled at boot
+  service:
+    name: 'dropbox'
+    state: 'started'
+    enabled: 'yes'
+  tags: [dropbox-headless,services]
+
+- name: Check if device is linked
+  shell: timeout --foreground --preserve-status 35 tail -n0 -f /var/log/dropbox.log | grep 'to link this device' | wc -l
+  register: dropbox_check_linked
+  changed_when: false
+  failed_when: false
+  tags: [dropbox-headless]
+
+- name: Notify device not linked
+  debug:
+    msg: 'Device not linked, check /var/log/dropbox.log'
+  when: dropbox_check_linked.stdout != '0'
+  tags: [dropbox-headless]

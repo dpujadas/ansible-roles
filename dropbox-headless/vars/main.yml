@@ -1,0 +1,6 @@
+---
+# vars file for dropbox-headless
+
+dropbox_headless_url: 'https://www.dropbox.com/download?plat=lnx.x86_64'
+dropbox_headless_install_dir: '/usr/local/bin'
+dropbox_headless_logfile: '/var/log/dropbox.log'
