@@ -93,11 +93,11 @@
     mode: '0755'
   tags: [initial-setup]
 
-- name: Create  and enable swap file on EC2 t2.micro instances
-  shell: dd if=/dev/zero of={{ initial_setup_swap_file }} bs=1M count=512 && mkswap {{ initial_setup_swap_file }} && swapon {{ initial_setup_swap_file }}
+- name: Create and enable swap file
+  shell: dd if=/dev/zero of={{ initial_setup_swap_file }} bs=1M count={{ initial_setup_swap_size }} && mkswap {{ initial_setup_swap_file }} && swapon {{ initial_setup_swap_file }}
   args:
     creates: '{{ initial_setup_swap_file }}'
-  when: (ec2_instance_type is defined) and (ec2_instance_type=='t2.micro')
+  when: initial_setup_create_swap or ((ec2_instance_type is defined) and (ec2_instance_type=='t2.micro'))
   tags: [initial-setup]
 
 # - name: Install needed locales

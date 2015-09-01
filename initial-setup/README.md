@@ -16,6 +16,8 @@ Role Variables
 * **initial_setup_aws_access_key:** ACCESS_KEY_ID with privileges to create Route53 records, mandatory if initial_setup_create_dns_record is true (default: '')
 * **initial_setup_aws_secret_key:** SECRET_ACCESS_KEY with privileges to create Route53 records, mandatory if initial_setup_create_dns_record is true (default: '')
 * **initial_setup_locales:** List of locales to install (default: empty list)
+* **initial_setup_create_swap:** Create swapfile or not (default: false)
+* **initial_setup_swap_size:** Swap file size, in Mb (default: 1024)
 
 Example Playbook
 ----------------
