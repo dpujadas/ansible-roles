@@ -1,0 +1,34 @@
+---
+# tasks file for users
+
+- name: Create user groups
+  group:
+    name: '{{ item.group | default(item.name) }}'
+    state: 'present'
+  with_items: users_list
+  when: (item.state is undefined) or (item.state is defined and item.state != 'absent')
+  tags: [users]
+
+- name: Manage user accounts
+  user:
+    name: '{{ item.name }}'
+    group: '{{ item.group | default(item.name) }}'
+    state: '{{ item.state | default("present") }}'
+    password: '{{ item.password | default("*") }}'
+    shell: '{{ item.shell | default(omit) }}'
+    home: '{{ item.home | default(omit) }}'
+    createhome: '{{ item.createhome | default(omit) }}'
+  with_items: users_list
+  when: item.name is defined and item.name and item.name != 'root'
+  tags: [users]
+
+- name: Ensure home dir exist and belongs to user
+  file:
+    dest: '{{ item.home }}'
+    state: 'directory'
+    owner: '{{ item.name }}'
+    group: '{{ item.group | default(item.name) }}'
+    mode: '0775'
+  with_items: users_list
+  when: item.home is defined
+  tags: [users]
