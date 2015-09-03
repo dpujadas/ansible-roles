@@ -41,7 +41,7 @@
     group: 'root'
     mode: '0644'
   with_items: nginx_confs
-  notify: Reload nginx
+  notify: Restart nginx
   tags: [nginx,configuration]
 
 - name: Disable default vhosts
@@ -51,7 +51,7 @@
   with_items:
     - default.conf
     - example_ssl.conf
-  notify: Reload nginx
+  notify: Restart nginx
   tags: [nginx,configuration]
 
 - name: Configure sites
@@ -62,7 +62,7 @@
     group: 'root'
     mode: '0644'
   with_items: nginx_sites
-  notify: Reload nginx
+  notify: Restart nginx
   tags: [nginx,configuration]
 
 - name: Ensure nginx is started and enabled at boot
