@@ -14,7 +14,7 @@
     name: '{{ item.name }}'
     group: '{{ item.group | default(item.name) }}'
     state: '{{ item.state | default("present") }}'
-    password: '{{ item.password | default("*") }}'
+    password: '{{ (item.password | default(""))|password_hash("sha512") }}'
     shell: '{{ item.shell | default(omit) }}'
     home: '{{ item.home | default(omit) }}'
     createhome: '{{ item.createhome | default(omit) }}'
@@ -30,5 +30,16 @@
     group: '{{ item.group | default(item.name) }}'
     mode: '0775'
   with_items: users_list
-  when: item.home is defined
+  when: item.home is defined and (item.chrooted is undefined or not item.chrooted)
+  tags: [users]
+
+- name: Ensure home dir exist and belongs to root
+  file:
+    dest: '{{ item.home }}'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  with_items: users_list
+  when: item.home is defined and (item.chrooted is defined and item.chrooted)
   tags: [users]

@@ -14,6 +14,7 @@ Role Variables
   * **shell:** User's shell (default: omit)
   * **home:** User's home dir (default: omit)
   * **createhome:** Create home dir or not (default: omit)
+  * **chrooted:** Chroot user or not (default: undefined)
 
 Example Playbook
 ----------------
