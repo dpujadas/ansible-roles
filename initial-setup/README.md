@@ -18,6 +18,7 @@ Role Variables
 * **initial_setup_locales:** List of locales to install (default: empty list)
 * **initial_setup_create_swap:** Create swapfile or not (default: false)
 * **initial_setup_swap_size:** Swap file size, in Mb (default: 1024)
+* **initial_setup_umask:** When defined, sets system's default umask using [octal notation](https://en.wikipedia.org/wiki/Umask#Setting_the_mask_using_octal_notation) (Ex: '0002')
 
 Example Playbook
 ----------------

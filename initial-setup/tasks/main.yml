@@ -100,6 +100,24 @@
   when: initial_setup_create_swap or ((ec2_instance_type is defined) and (ec2_instance_type=='t2.micro'))
   tags: [initial-setup]
 
+- name: Set default umask
+  lineinfile:
+    dest: '/etc/login.defs'
+    regexp: '^UMASK[\s]+\d{1,4}$'
+    line: 'UMASK {{ initial_setup_umask }}'
+  when: initial_setup_umask is defined
+  tags: [initial-setup,umask]
+
+- name: Set sudoers default umask
+  template:
+    src: 'umask.j2'
+    dest: '/etc/sudoers.d/umask'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+  when: initial_setup_umask is defined
+  tags: [initial-setup,umask]
+
 # - name: Install needed locales
 #   locale_gen:
 #     name: '{{ item }}'
