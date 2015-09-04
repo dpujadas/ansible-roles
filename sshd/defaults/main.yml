@@ -1,0 +1,5 @@
+---
+# defaults file for sshd
+
+sshd_password_authentication: 'no'
+sshd_chrooted_users: []
