@@ -10,7 +10,7 @@ Role Variables
   * **name:** User name (Ex: 'ubuntu')
   * **group:** User group (default: '{{ name }}')
   * **state:** User state (default: 'present')
-  * **password:** User's password (default: '*')
+  * **password:** User's password, set '\*' or '!' for nologin (Ex: '\*')
   * **shell:** User's shell (default: omit)
   * **home:** User's home dir (default: omit)
   * **createhome:** Create home dir or not (default: omit)

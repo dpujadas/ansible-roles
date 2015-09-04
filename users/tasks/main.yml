@@ -14,7 +14,7 @@
     name: '{{ item.name }}'
     group: '{{ item.group | default(item.name) }}'
     state: '{{ item.state | default("present") }}'
-    password: '{{ (item.password | default(""))|password_hash("sha512") }}'
+    password: '{{ (item.password not in ["*","!",""]) | ternary(item.password|password_hash("sha512"),item.password) }}'
     shell: '{{ item.shell | default(omit) }}'
     home: '{{ item.home | default(omit) }}'
     createhome: '{{ item.createhome | default(omit) }}'
