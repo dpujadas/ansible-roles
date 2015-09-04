@@ -6,6 +6,7 @@
     dev: '{{ item.device }}'
     fstype: '{{ item.type }}'
   with_items: filesystem_fs
+  when: item.type != 'none'
   tags: [filesystem]
 
 - name: Ensure volume is mounted
