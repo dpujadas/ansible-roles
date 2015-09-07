@@ -1,6 +1,8 @@
 127.0.0.1 localhost 
 {{ ansible_default_ipv4.address }} {{ inventory_hostname }}.{{ initial_setup_localdomain }} {{ inventory_hostname }}
+{% if initial_setup_host_entries|length > 0 %}
 {% for k, v in initial_setup_host_entries.iteritems() %}
 {{ k }}{% for name in v %} {{ name }}{% endfor %}
 
 {% endfor %}
+{% endif %}
