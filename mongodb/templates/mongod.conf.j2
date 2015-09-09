@@ -14,8 +14,10 @@ logappend=true
 
 #port = 27017
 
+{% if mongodb_conf_bind_ip is defined and mongodb_conf_bind_ip %}
 # Listen to local interface only. Comment out to listen on all interfaces. 
-bind_ip = 127.0.0.1
+bind_ip = {{ mongodb_conf_bind_ip }}
+{% endif %}
 
 # Disables write-ahead journaling
 # nojournal = true
@@ -25,7 +27,9 @@ bind_ip = 127.0.0.1
 
 # Turn on/off security.  Off is currently the default
 #noauth = true
-#auth = true
+{% if mongodb_conf_auth is defined %}
+auth = {{ mongodb_conf_auth }}
+{% endif %}
 
 # Verbose logging output.
 #verbose = true

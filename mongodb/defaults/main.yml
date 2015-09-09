@@ -3,3 +3,5 @@
 
 mongodb_version: '2.6'
 mongodb_subversion: '.7'
+mongodb_users: []
+mongodb_conf_bind_ip: '127.0.0.1'

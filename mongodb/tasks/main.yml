@@ -1,6 +1,13 @@
 ---
 # tasks file for mongodb
 
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: mongodb_required_packages
+  tags: [mongodb,packages]
+
 - name: Include the mongodb 2.6 version variables
   include_vars: "2.6.yml"
   when: mongodb_version == "2.6"
@@ -40,6 +47,15 @@
     mode: '0644'
   notify: Restart mongod
   tags: [mongodb,configuration]
+
+- name: Create users
+  mongodb_user:
+    database: '{{ item.database }}'
+    name: '{{ item.user }}'
+    password: '{{ item.pwd }}'
+    roles: '{{ item.roles }}'
+  with_items: mongodb_users
+  tags: [mongodb]
 
 - name: Ensure mongodb is started and enabled at boot
   service:
