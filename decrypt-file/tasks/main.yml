@@ -15,9 +15,6 @@
   copy:
     src: '{{ item.content }}'
     dest: '{{ item.dest }}.tmp'
-    owner: 'root'
-    group: 'root'
-    mode: '0600'
   with_items: decrypt_file_files
   tags: [decrypt-file]
 
