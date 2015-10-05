@@ -1,0 +1,38 @@
+---
+# tasks file for rabbitmq
+
+- name: Add rabbitmq apt key
+  apt_key:
+    url: '{{ rabbitmq_url_key }}'
+    state: present
+  tags: [rabbitmq,packages]
+
+- name: Add rabbitmq repo
+  apt_repository:
+    repo: '{{ rabbitmq_apt_repo }}'
+    state: 'present'
+    update_cache: 'yes'
+  tags: [rabbitmq,packages]
+
+- name: Install rabbitmq package
+  apt:
+    name: 'rabbitmq-server'
+    state: 'present'
+  tags: [rabbitmq,packages]
+
+- name: Configure rabbitmq
+  template:
+    src: 'rabbitmq.config.j2'
+    dest: '/etc/rabbitmq/rabbitmq.config'
+    owner: 'rabbitmq'
+    group: 'rabbitmq'
+    mode: '0644'
+  notify: Restart rabbitmq
+  tags: [rabbitmq]
+
+- name: Ensure rabbitmq is started and enabled on boot
+  service:
+    name: 'rabbitmq-server'
+    state: 'started'
+    enabled: 'yes'
+  tags: [rabbitmq,services]
