@@ -1,0 +1,13 @@
+---
+# vars file for s3fs
+
+s3fs_required_packages:
+  - automake
+  - g++
+  - libcurl4-gnutls-dev
+  - libfuse-dev
+  - libssl-dev
+  - libxml2-dev
+  - make
+  - unzip
+s3fs_url: 'https://github.com/s3fs-fuse/s3fs-fuse/archive/v{{ s3fs_version }}.zip'

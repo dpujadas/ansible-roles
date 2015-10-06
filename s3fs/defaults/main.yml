@@ -1,0 +1,4 @@
+---
+# defaults file for s3fs
+
+s3fs_version: '1.79'

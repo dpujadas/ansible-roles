@@ -1,0 +1,43 @@
+---
+# tasks file for s3fs
+
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: 'installed'
+  with_items: s3fs_required_packages
+  tags: [s3fs,packages]
+
+- name: Test s3fs exists
+  shell: which s3fs
+  register: s3_exists
+  ignore_errors: True
+  changed_when: false
+  tags: [s3fs]
+
+- name: Download s3fs source
+  get_url:
+    url: '{{ s3fs_url }}'
+    dest: '/tmp'
+  register: s3fs_download
+  tags: [s3fs]
+
+- name: Uncompress s3fs source
+  unarchive:
+    src: '{{ s3fs_download.dest }}'
+    dest: '/tmp'
+    copy: 'no'
+  when: s3fs_download.changed
+  tags: [s3fs]
+
+- name: Configure, build and install s3fs
+  shell: '{{ item }}'
+  args:
+    chdir: '{{ s3fs_download.dest.replace(".zip","") }}'
+  with_items:
+    - ./autogen.sh
+    - ./configure
+    - make
+    - make install
+  when: s3fs_download.changed or s3_exists|failed
+  tags: [s3fs]
