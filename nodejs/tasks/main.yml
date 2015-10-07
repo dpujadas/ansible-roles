@@ -1,12 +1,38 @@
 ---
 # tasks file for nodejs
 
+- name: Add NodeSource apt key
+  apt_key:
+    url: '{{ nodejs_nodesource_url_key }}'
+    state: 'present'
+  when: nodejs_use_nodesource
+  tags: [nodejs,packages]
+
+- name: Add NodeSource repos
+  apt_repository:
+    state: 'present'
+    repo: '{{ item }}'
+    update_cache: 'yes'
+  with_items: nodejs_nodesource_repos
+  when: nodejs_use_nodesource
+  tags: [nodejs,packages]
+
 - name: Install the nodejs packages
   apt:
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
   with_items: nodejs_packages
+  when: not nodejs_use_nodesource
+  tags: [nodejs,packages]
+
+- name: Install the nodejs packages (when NodeSource)
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+    update_cache: 'yes'
+  with_items: nodejs_nodesource_packages
+  when: nodejs_use_nodesource
   tags: [nodejs,packages]
 
 - name: Install the nodejs modules
