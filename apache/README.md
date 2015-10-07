@@ -12,6 +12,7 @@ Role Variables
 * **apache_mods_enabled:** List of apache modules to install (default: empty list)
 * **apache_sites:** List of sites (server_name / template) to enable (default: empty list)
 * **apache_doc_root:** Directory where apps will be installed (Ex: '/var/www')
+* **apache_listen_port:** Apache Listen port (default: 80)
 
 Example Playbook
 ----------------
