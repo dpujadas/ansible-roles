@@ -71,3 +71,8 @@
     state: 'started'
     enabled: 'yes'
   tags: [nginx,services]
+
+- name: Install and configure fcgiwrap
+  include: 'fcgiwrap.yml'
+  when: nginx_fcgiwrap_enabled
+  tags: [nginx,nginx-fcgiwrap]

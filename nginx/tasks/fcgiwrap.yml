@@ -1,0 +1,14 @@
+---
+# tasks file for nginx-fcgiwrap
+
+- name: Install fcgiwrap package
+  apt:
+    name: 'fcgiwrap'
+    state: 'latest'
+  tags: [nginx,nginx-fcgiwrap,packages]
+
+- name: Enable fcgiwrap service
+  service:
+    name: 'fcgiwrap'
+    enabled: 'yes'
+  tags: [nginx,nginx-fcgiwrap,services]

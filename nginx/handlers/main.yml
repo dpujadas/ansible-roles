@@ -10,3 +10,8 @@
   service:
     name: 'nginx'
     state: 'reloaded'
+
+- name: Restart fcgiwrap
+  service:
+    name: 'fcgiwrap'
+    state: 'restarted'
