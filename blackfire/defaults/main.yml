@@ -1,0 +1,6 @@
+---
+# defaults file for blackfire
+
+blackfire_collector: 'https://blackfire.io'
+blackfire_log_level: '1'
+blackfire_socket: 'unix:///var/run/blackfire/agent.sock'

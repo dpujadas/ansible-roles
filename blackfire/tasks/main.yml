@@ -1,0 +1,41 @@
+---
+# tasks file for blackfire
+
+- name: Add blackfire apt key
+  apt_key:
+    url: '{{ blackfire_url_key }}'
+    state: present
+  tags: [blackfire,packages]
+
+- name: Add blackfire repo
+  apt_repository:
+    repo: '{{ blackfire_apt_repo }}'
+    state: 'present'
+    update_cache: 'yes'
+  tags: [blackfire,packages]
+
+- name: Install blackfire packages
+  apt:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - blackfire-agent
+    - blackfire-php
+  tags: [blackfire,packages]
+
+- name: Configure blackfire
+  template:
+    src: agent.j2
+    dest: /etc/blackfire/agent
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart blackfire
+  tags: [blackfire,configuration]
+
+- name: Ensure blackfire is started and enabled on boot
+  service:
+    name: 'blackfire-agent'
+    state: 'started'
+    enabled: 'yes'
+  tags: [blackfire,services]
