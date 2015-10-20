@@ -4,3 +4,4 @@
 ssmtp_root: 'postmaster'
 ssmtp_from_line_override: 'yes'
 ssmtp_use_tls: 'yes'
+ssmtp_use_starttls: 'no'
