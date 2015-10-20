@@ -4,6 +4,8 @@
 - name: Configure {{ deployment_user }}
   user:
     name: '{{ deployment_user }}'
+    password: '{{ (deployment_pass not in ["*","!",""]) | ternary(deployment_pass|password_hash("sha512"),deployment_pass) }}'
+    home: '{{ deployment_home | default(omit) }}'
     shell: '/bin/bash'
   tags: [deployment]
 
