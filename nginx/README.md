@@ -23,7 +23,6 @@ Role Variables
 * **nginx_doc_root:** Directory where apps will be installed (Ex: '/var/www')
 * **nginx_sites:** List of sites (server_name / template / filename) to enable. Filename field is optional (server_name is used if not defined) but usefull in case load order is important (default: empty list)
 * **nginx_confs:** List of available confs (conf_name / template), .conf filenames are automatically included (default: empty list)
-* **nginx_fcgiwrap_enabled:** Enables fcgiwrap module to use CGI applications within Nginx
 
 Example Playbook
 ----------------
