@@ -10,3 +10,4 @@ apache_packages:
 apache_mods_enabled: []
 apache_sites: []
 apache_auth_users: []
+apache_listen_port: '80'

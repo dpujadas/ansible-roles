@@ -15,6 +15,7 @@ Role Variables
 * **ssmtp_rewrite_domain:** If set, the domain from which mail seems to come
 * **ssmtp_from_line_override:** Specifies whether the From header of an email, if any, may override the default domain (default: Yes)
 * **ssmtp_use_tls:** Specifies whether ssmtp uses TLS to talk to the SMTP server (default: Yes)
+* **ssmtp_use_starttls:** Specifies whether ssmtp uses STARTTLS to talk to the SMTP server (default: No)
 
 Example Playbook
 ----------------

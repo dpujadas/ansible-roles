@@ -1,0 +1,5 @@
+---
+# vars file for blackfire
+
+blackfire_url_key: 'https://packagecloud.io/gpg.key'
+blackfire_apt_repo: 'deb http://packages.blackfire.io/debian any main'

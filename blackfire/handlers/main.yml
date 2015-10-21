@@ -1,0 +1,12 @@
+---
+# handlers file for blackfire
+
+- name: Restart blackfire
+  service:
+    name: 'blackfire-agent'
+    state: 'restarted'
+
+- name: Reload blackfire
+  service:
+    name: 'blackfire-agent'
+    state: 'reloaded'

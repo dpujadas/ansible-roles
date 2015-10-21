@@ -3,3 +3,5 @@
 
 nodejs_modules: []
 nodejs_npm_packages: []
+nodejs_use_nodesource: false
+nodejs_nodesource_version: 'node_4.x'

@@ -9,6 +9,8 @@ Role Variables
 * **deployment_root:** Directory where code will be deployed, usually '/var/www'
 * **deployment_user:** User that will perform deploys (default: 'www-data')
 * **deployment_group:** Group that will perform deploys (default: 'www-data')
+* **deployment_pass:** Password for deployment user (default: '*', which means no password)
+* **deployment_home:** Home dir for deployment user (default: 'omit')
 * **deployment_root_type:** Indicates the type of node where code will be deployed. Possible values: 'file', 'nfs' (default: 'file')
 * **deployment_extra_packages:** List of extra packages needed for deployment, appended to deployment_packages list (default: empty list)
 * **deployment_authorized_keys:** If set, will be added to deployment_user's authorized_keys.

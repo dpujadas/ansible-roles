@@ -27,6 +27,16 @@
   notify: Restart apache
   tags: [apache,configuration]
 
+- name: Set apache ports
+  template:
+    src: 'ports.conf.j2'
+    dest: '/etc/apache2/ports.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: Restart apache
+  tags: [apache,configuration]
+
 - name: Configure apache
   template:
     src: 'apache2.conf.j2'

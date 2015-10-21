@@ -5,3 +5,9 @@ nodejs_packages:
   - nodejs
   - nodejs-legacy
   - npm
+nodejs_nodesource_packages:
+  - nodejs
+nodejs_nodesource_url_key: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+nodejs_nodesource_repos:
+  - deb https://deb.nodesource.com/{{ nodejs_nodesource_version }} {{ ansible_lsb.codename }} main
+  - deb-src https://deb.nodesource.com/{{ nodejs_nodesource_version }} {{ ansible_lsb.codename }} main
