@@ -1,0 +1,7 @@
+---
+# handlers file for fcgiwrap
+
+- name: Restart fcgiwrap
+  service:
+    name: 'fcgiwrap'
+    state: 'restarted'
