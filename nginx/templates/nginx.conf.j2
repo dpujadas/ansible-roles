@@ -14,6 +14,19 @@ http {
     types_hash_max_size {{ nginx_types_hash_max_size }};
     gzip on;
     gzip_disable "msie6";
+    gzip_proxied any;
+    gzip_types
+        text/plain
+        text/css
+        text/js
+        text/xml
+        text/javascript
+        application/javascript
+        application/x-javascript
+        application/json
+        application/xml
+        application/xml+rss;
+
     {% if nginx_custom_directives is defined -%}
     {% for key, value in nginx_custom_directives.iteritems() -%}
     {{ key }} {{ value }};
