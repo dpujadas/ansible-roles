@@ -1,5 +1,13 @@
 ---
 # tasks file for dropbox-headless
+- name: Set some sysctl values
+  sysctl:
+    name: 'fs.inotify.max_user_watches'
+    value: '100000'
+    sysctl_set: 'yes'
+    state: 'present'
+    reload: 'yes'
+  tags: [dropbox-headless,sysctl]
 
 - name: Download dropbox for linux
   get_url:
