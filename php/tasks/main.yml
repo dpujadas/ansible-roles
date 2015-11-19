@@ -1,11 +1,10 @@
 ---
 # tasks file for php
 
-- name: Install ondrej repo for latest PHP packages
-  apt_repository:
-    repo: '{{ php_ondrej_repo }}'
+- name: Install ondrej tasks
+  include: 'ondrej.yml'
   when: php_use_ondrej
-  tags: [php,packages]
+  tags: [php,php-ondrej]
 
 - name: Include cli tasks
   include: 'cli.yml'

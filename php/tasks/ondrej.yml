@@ -1,0 +1,8 @@
+- name: Include ondrej vars file
+  include_vars: 'ondrej-{{ php_version }}.yml'
+  tags: [php,php-ondrej]
+
+- name: Install ondrej repo for latest PHP packages
+  apt_repository:
+    repo: '{{ php_ondrej_repo }}'
+  tags: [php,php-ondrej,packages]
