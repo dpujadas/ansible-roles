@@ -1,0 +1,17 @@
+---
+# tasks file for ruby
+
+- name: Install the ruby packages
+  apt:
+    name: 'ruby'
+    state: 'present'
+    update_cache: 'yes'
+  tags: [ruby,packages]
+
+- name: Install the ruby gems
+  gem:
+    name: '{{ item }}'
+    state: 'present'
+    user_install: 'no'
+  with_items: ruby_gems
+  tags: [ruby,packages]
