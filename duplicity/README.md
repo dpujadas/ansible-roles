@@ -16,6 +16,7 @@ Role Variables
 * **duplicity_aws_bucket:** AWS bucket endpoint where backups will be uploaded (Ex: 's3-eu-west-1.amazonaws.com/duplicity-bucket')
 * **duplicity_aws_user:** ACCESS_KEY_ID with read/write privileges to the bucket
 * **duplicity_aws_pass:** SECRET_ACCESS_KEY with read/write privileges to the bucket
+* **duplicity_archive_dir:** Defines a folder that holds unencrypted meta data of the backup (default: '')
 
 Dependencies
 ------------

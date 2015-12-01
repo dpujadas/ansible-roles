@@ -1,3 +1,6 @@
+{% if duplicity_archive_dir != '' %}
+ARCH_DIR={{ duplicity_archive_dir }}
+{% endif %}
 GPG_PW='{{ duplicity_gpg_pass }}'
 TARGET='s3://{{ duplicity_aws_bucket }}/{{ item.key }}'
 SOURCE='{{ item.value.source }}'
