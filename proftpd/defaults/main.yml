@@ -1,0 +1,6 @@
+---
+# defaults file for proftpd
+
+proftpd_server_name: 'Debian'
+proftpd_jail_users: False
+proftpd_require_valid_shell: 'on'

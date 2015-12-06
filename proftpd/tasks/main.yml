@@ -1,0 +1,23 @@
+---
+# tasks file for proftpd
+
+- name: Install proftpd package
+  apt:
+    name: 'proftpd'
+    state: 'present'
+  tags: [proftpd,packages]
+
+- name: Copy the proftpd configuration file 
+  template:
+    src: 'proftpd.conf.j2'
+    dest: '/etc/proftpd/proftpd.conf'
+  notify: 
+    - Restart proftpd 
+  tags: [proftpd,configuration]
+
+- name: Ensure proftpd is started and enabled at boot
+  service:
+    name: 'proftpd'
+    state: 'started'
+    enabled: 'yes'
+  tags: [proftpd,services]
