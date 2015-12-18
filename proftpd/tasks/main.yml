@@ -15,6 +15,13 @@
     - Restart proftpd 
   tags: [proftpd,configuration]
 
+- name: Fix init script (https://bugs.launchpad.net/ubuntu/+source/proftpd-dfsg/+bug/1246245)
+  copy:
+    src: 'proftpd'
+    dest: '/etc/init.d/proftpd'
+    mode: '0755'
+  tags: [proftpd,configuration]
+
 - name: Ensure proftpd is started and enabled at boot
   service:
     name: 'proftpd'
