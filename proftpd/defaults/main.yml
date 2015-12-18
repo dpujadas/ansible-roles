@@ -4,3 +4,5 @@
 proftpd_server_name: 'Debian'
 proftpd_jail_users: False
 proftpd_require_valid_shell: 'on'
+proftpd_passive_ports: ''
+proftpd_masquerade_address: ''
