@@ -1,5 +1,6 @@
 ---
 # defaults file for awscli
 
+awscli_setup_config: True
 awscli_user: 'ubuntu'
 awscli_group: 'ubuntu'

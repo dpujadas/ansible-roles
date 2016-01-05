@@ -29,6 +29,7 @@
     owner: '{{ awscli_user }}'
     group: '{{ awscli_group }}'
     mode: '0755'
+  when: awscli_setup_config
   tags: [awscli,configuration]
 
 - name: Create awscli config file
@@ -38,4 +39,5 @@
     owner: '{{ awscli_user }}'
     group: '{{ awscli_group }}'
     mode: '0644'
+  when: awscli_setup_config
   tags: [awscli,configuration]
