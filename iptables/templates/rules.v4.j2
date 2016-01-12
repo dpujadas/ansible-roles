@@ -6,5 +6,17 @@
 {% for item in iptables_dnat_rules %}
 -A PREROUTING -p tcp -m tcp --dport {{ item.dport }} -j DNAT --to-destination {{ item.to_destination }}
 {% endfor %}
+{% if iptables_do_nat == True %}
 -A POSTROUTING -s {{ iptables_masq_source }} -o eth0 -j MASQUERADE
+{% endif %}
 COMMIT
+{% if iptables_do_filter == True %}
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+{% for item in iptables_filter_rules %}
+-A INPUT -s {{ item.source }} -j {{ item.jump }}
+{% endfor %}
+COMMIT
+{% endif %}

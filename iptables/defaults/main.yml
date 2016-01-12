@@ -1,5 +1,8 @@
 ---
 # defaults file for iptables
 
+iptables_do_nat: True
 iptables_dnat_rules: []
 iptables_masq_source: '10.0.0.0/16'
+iptables_do_filter: False
+iptables_filter_rules: []

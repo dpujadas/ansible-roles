@@ -11,6 +11,7 @@
   with_items:
     - { name: 'net.ipv4.ip_forward', value: '1' }
     - { name: 'net.ipv4.conf.eth0.send_redirects', value: '0' }
+  when: iptables_do_nat == True
   tags: [iptables,sysctl]
 
 - name: Install the iptables-persistent package
