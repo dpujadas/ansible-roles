@@ -1,5 +1,7 @@
 cluster.name: {{ elasticsearch_cluster_name }}
+{% if elasticsearch_node_name != '' %}
 node.name: {{ elasticsearch_node_name }}
+{% endif %}
 
 {% if 'cloud-aws' in elasticsearch_install_plugins|map(attribute='name')|list %}
 discovery:
