@@ -20,6 +20,7 @@ Role Variables
 * **initial_setup_swap_size:** Swap file size, in Mb (default: 1024)
 * **initial_setup_umask:** When defined, sets system's default umask using [octal notation](https://en.wikipedia.org/wiki/Umask#Setting_the_mask_using_octal_notation) (Ex: '0002')
 * **initial_setup_host_entries:** List of entries to add to /etc/hosts file (default: empty list)
+* **initial_setup_localhosts:** List of alternative names to localhost (default: empty list)
 
 Example Playbook
 ----------------

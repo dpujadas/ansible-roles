@@ -1,5 +1,5 @@
-127.0.0.1 localhost 
-{{ ansible_default_ipv4.address }} {{ formatted_inventory_hostname }}.{{ initial_setup_localdomain }} {{ formatted_inventory_hostname }}
+127.0.0.1 localhost {{ initial_setup_localhosts|join(' ') }}
+{{ ansible_default_ipv4.address }} {{ initial_setup_hostname }}.{{ initial_setup_localdomain }} {{ initial_setup_hostname }}
 {% if initial_setup_host_entries|length > 0 %}
 {% for k, v in initial_setup_host_entries.iteritems() %}
 {{ k }}{% for name in v %} {{ name }}{% endfor %}

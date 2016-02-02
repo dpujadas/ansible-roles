@@ -10,13 +10,14 @@
 
 - name: Set properly formatted hostname
   set_fact:
-    formatted_inventory_hostname: '{{ inventory_hostname | regex_replace("\.", "-") }}'
+    initial_setup_hostname: '{{ inventory_hostname | regex_replace("\.", "-") }}'
+  when: (initial_setup_hostname is not defined) or (initial_setup_hostname == '')
   tags: [initial-setup,hostname]
 
 - name: Set hostname
   shell: >
-    hostnamectl set-hostname {{ formatted_inventory_hostname }}
-  when: ansible_hostname != formatted_inventory_hostname
+    hostnamectl set-hostname {{ initial_setup_hostname }}
+  when: ansible_hostname != initial_setup_hostname
   register: set_hostname
   tags: [initial-setup,hostname]
 

@@ -12,3 +12,4 @@ initial_setup_create_swap: false
 initial_setup_swap_size: '512'
 initial_setup_locales: []
 initial_setup_host_entries: []
+initial_setup_localhosts: []
