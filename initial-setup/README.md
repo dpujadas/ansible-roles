@@ -10,6 +10,7 @@ Role Variables
 * **initial_setup_timezone:** Server's timezone (default: '')
 * **initial_setup_management_user:** Management user (default: 'ubuntu')
 * **initial_setup_management_public_key:** Management user's public key (default: empty)
+* **initial_setup_management_from:** List of comma-separated management allowed origins (default: 'localhost,10.0.*')
 * **initial_setup_create_dns_record:** Create Route53 DNS record or not (default: false)
 * **initial_setup_localdomain:** Internal domain name used in FQDN, mandatory if initial_setup_create_dns_record is true (Ex: 'example.lan', default: 'localdomain')
 * **initial_setup_route53_ttl:** DNS record TTL (default: '300')
