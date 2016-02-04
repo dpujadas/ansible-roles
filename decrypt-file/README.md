@@ -1,7 +1,7 @@
 decrypt-file
 ============
 
-This role decrypts and installs encrypted files.
+This role installs and, optionally, decrypts a set of files.
 
 Requirements
 ------------
@@ -11,7 +11,7 @@ Files must be encrypted using openssl as described in [this article](https://www
 Role Variables
 --------------
 
-* **decrypt_file_password:** Password used to encrypt/decrypt (Ex: 'SecretPassword')
+* **decrypt_file_password:** Password used to encrypt/decrypt. If not set, files are not decrypted (Ex: 'SecretPassword')
 * **decrypt_file_files:** List of files to decrypt. Each element must have the following structure:
   * **content:** Path to encrypted file (Ex: 'files/id_rsa')
   * **dest:** Full path for decrypted file (Ex: '~www-data/.ssh/id_rsa')
