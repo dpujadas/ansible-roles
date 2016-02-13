@@ -1,79 +1,85 @@
 # mongod.conf
 
-# Where to store the data.
+systemLog:
+  verbosity: {{ mongodb_systemlog_verbosity }}
+  quiet: {{ mongodb_systemlog_quiet }}
+  traceAllExceptions: {{ mongodb_systemlog_traceallexceptions }}
+  syslogFacility: '{{ mongodb_systemlog_syslogfacility }}'
+  destination: '{{ mongodb_systemlog_destination }}'
+{% if mongodb_systemlog_destination == 'file' %}
+  path: '{{ mongodb_systemlog_path }}'
+  logAppend: {{ mongodb_systemlog_logappend }}
+{% endif %}
+  timeStampFormat: '{{ mongodb_systemlog_timestampformat }}'
 
-# Note: if you run mongodb as a non-root user (recommended) you may
-# need to create and set permissions for this directory manually,
-# e.g., if the parent directory isn't mutable by the mongodb user.
-dbpath=/var/lib/mongodb
-
-#where to log
-logpath=/var/log/mongodb/mongod.log
-
-logappend=true
-
-#port = 27017
-
-{% if mongodb_conf_bind_ip is defined and mongodb_conf_bind_ip %}
-# Listen to local interface only. Comment out to listen on all interfaces. 
-bind_ip = {{ mongodb_conf_bind_ip }}
+processManagement:
+  fork: {{ mongodb_processmanagement_fork }}
+{% if mongodb_processmanagement_fork %}
+  pidFilePath: '{{ mongodb_processmanagement_pidfilepath }}'
 {% endif %}
 
-# Disables write-ahead journaling
-# nojournal = true
-
-# Enables periodic logging of CPU utilization and I/O wait
-#cpu = true
-
-# Turn on/off security.  Off is currently the default
-#noauth = true
-{% if mongodb_conf_auth is defined %}
-auth = {{ mongodb_conf_auth }}
+net:
+  port: {{ mongodb_net_port }}
+{% if mongodb_net_bindip %}
+  bindIp: '{{ mongodb_net_bindip }}'
 {% endif %}
+  maxIncomingConnections: {{ mongodb_net_maxincomingconnections }}
+  wireObjectCheck: {{ mongodb_net_wireobjectcheck }}
+  ipv6: {{ mongodb_net_ipv6 }}
+  unixDomainSocket:
+    enabled: {{ mongodb_net_unixdomainsocket_enabled }}
+    pathPrefix: '{{ mongodb_net_unixdomainsocket_pathprefix }}'
+  http:
+    enabled: {{ mongodb_net_http_enabled }}
+    JSONPEnabled: {{ mongodb_net_http_jsonpenabled }}
+    RESTInterfaceEnabled: {{ mongodb_net_http_restinterfaceenabled }}
 
-# Verbose logging output.
-#verbose = true
+security:
+  authorization: '{{ mongodb_security_authorization }}'
+{% if mongodb_security_authorization!= 'disabled' %}
+  keyFile: '{{ mongodb_security_keyfile }}'
+  clusterAuthMode: '{{ mongodb_security_clusterauthmode }}'
+{% endif %}
+  javascriptEnabled:  {{ mongodb_security_javascriptenabled }}
 
-# Inspect all client data for validity on receipt (useful for
-# developing drivers)
-#objcheck = true
+operationProfiling:
+   slowOpThresholdMs: {{ mongodb_operationprofiling_slowopthresholdms }}
+   mode: '{{ mongodb_operationprofiling_mode }}'
 
-# Enable db quota management
-#quota = true
+storage:
+  dbPath: '{{ mongodb_storage_dbpath }}'
+  directoryPerDB: {{ mongodb_storage_directoryperdb }}
+  indexBuildRetry: {{ mongodb_storage_indexbuildretry }}
+  preallocDataFiles: {{ mongodb_storage_preallocdatafiles }}
+  nsSize: {{ mongodb_storage_nssize }}
+  smallFiles: {{ mongodb_storage_smallfiles }}
+  syncPeriodSecs: {{ mongodb_storage_syncperiodsecs }}
+{% if mongodb_storage_journal_debugflags %}
+  repairPath: '{{ mongodb_storage_repairpath }}'
+{% endif %}
+  journal:
+    enabled: {{ mongodb_storage_journal_enabled }}
+{% if mongodb_storage_journal_debugflags %}
+    debugFlags: {{ mongodb_storage_journal_debugflags }}
+{% endif %}
+{% if mongodb_storage_journal_commitintervalms %}
+    commitIntervalMs: {{ mongodb_storage_journal_commitintervalms }}
+{% endif %}
+  quota:
+    maxFilesPerDB: {{ mongodb_storage_quota_maxFilesperdb }}
 
-# Set oplogging level where n is
-#   0=off (default)
-#   1=W
-#   2=R
-#   3=both
-#   7=W+some reads
-#diaglog = 0
+replication:
+{% if mongodb_replication_oplogsizemb %}
+  oplogSizeMB: {{ mongodb_replication_oplogsizemb }}
+{% endif %}
+{% if mongodb_replication_replsetname %}
+  replSetName: '{{ mongodb_replication_replsetname }}'
+{% endif %}
+  secondaryIndexPrefetch: '{{ mongodb_replication_secondaryindexprefetch }}'
 
-# Ignore query hints
-#nohints = true
+sharding:
+{% if mongodb_sharding_clusterrole %}
+  clusterRole: '{{ mongodb_sharding_clusterrole }}'
+{% endif %}
+  archiveMovedChunks: {{ mongodb_sharding_archivemovedchunks }}
 
-# Enable the HTTP interface (Defaults to port 28017).
-#httpinterface = true
-
-# Turns off server-side scripting.  This will result in greatly limited
-# functionality
-#noscripting = true
-
-# Turns off table scans.  Any query that would do a table scan fails.
-#notablescan = true
-
-# Disable data file preallocation.
-#noprealloc = true
-
-# Specify .ns file size for new databases.
-# nssize = <size>
-
-# Replication Options
-
-# in replicated mongo databases, specify the replica set name here
-#replSet=setname
-# maximum size in megabytes for replication operation log
-#oplogSize=1024
-# path to a key file storing authentication info for connections
-# between replica set members
-#keyFile=/path/to/keyfile

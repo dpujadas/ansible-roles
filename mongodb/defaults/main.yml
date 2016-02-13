@@ -1,7 +1,58 @@
 ---
 # defaults file for mongodb
 
+mongodb_user: 'mongodb'
 mongodb_version: '2.6'
 mongodb_subversion: '.7'
 mongodb_users: []
-mongodb_conf_bind_ip: '127.0.0.1'
+
+mongodb_systemlog_verbosity: '0'
+mongodb_systemlog_quiet: 'false'
+mongodb_systemlog_traceallexceptions: 'false'
+mongodb_systemlog_syslogfacility: 'user'
+mongodb_systemlog_path: ''
+mongodb_systemlog_logappend: 'false'
+mongodb_systemlog_destination: 'syslog'
+mongodb_systemlog_timestampformat: 'iso8601-local'
+
+mongodb_processmanagement_fork: 'false'
+mongodb_processmanagement_pidfilepath: ''
+
+mongodb_net_port: '27017'
+mongodb_net_bindip: '127.0.0.1'
+mongodb_net_maxincomingconnections: '1000000'
+mongodb_net_wireobjectcheck: 'true'
+mongodb_net_ipv6: 'false'
+mongodb_net_unixdomainsocket_enabled: 'false'
+mongodb_net_unixdomainsocket_pathprefix: '/tmp'
+mongodb_net_http_enabled: 'false'
+mongodb_net_http_jsonpenabled: 'false'
+mongodb_net_http_restinterfaceenabled: 'false'
+
+mongodb_security_authorization: 'disabled'
+mongodb_security_keyfile: ''
+mongodb_security_clusterauthmode: 'keyFile'
+mongodb_security_javascriptenabled: 'true'
+
+mongodb_operationprofiling_slowopthresholdms: '100'
+mongodb_operationprofiling_mode: 'off'
+
+mongodb_storage_dbpath: '/data/db'
+mongodb_storage_directoryperdb: 'false'
+mongodb_storage_indexbuildretry: 'true'
+mongodb_storage_preallocdatafiles: 'true'
+mongodb_storage_nssize: '16'
+mongodb_storage_smallfiles: 'false'
+mongodb_storage_syncperiodsecs: '60'
+mongodb_storage_repairpath: ''
+mongodb_storage_journal_enabled: 'true'
+mongodb_storage_journal_debugflags: ''
+mongodb_storage_journal_commitintervalms: ''
+mongodb_storage_quota_maxFilesperdb: '8'
+
+mongodb_replication_oplogsizemb: ''
+mongodb_replication_replsetname: ''
+mongodb_replication_secondaryindexprefetch: 'all'
+
+mongodb_sharding_clusterrole: ''
+mongodb_sharding_archivemovedchunks: 'true'

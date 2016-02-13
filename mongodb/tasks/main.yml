@@ -48,6 +48,14 @@
   notify: Restart mongod
   tags: [mongodb,configuration]
 
+- name: Ensure {{ mongodb_storage_dbpath }} belongs to {{ mongodb_user }}
+  file:
+    dest: '{{ mongodb_storage_dbpath }}'
+    state: 'directory'
+    owner: '{{ mongodb_user }}'
+    mode: '0775'
+  tags: [mongodb]
+
 - name: Create users
   mongodb_user:
     database: '{{ item.database }}'
