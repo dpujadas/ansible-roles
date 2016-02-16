@@ -1,2 +1,8 @@
 ---
 # defaults file for letsencrypt
+
+letsencrypt_dir: '/opt/letsencrypt'
+letsencrypt_version: 'master'
+letsencrypt_staging: false
+letsencrypt_challenge_type: 'dns-01'
+letsencrypt_hook: 'hook-aws-{{ letsencrypt_challenge_type }}.py'

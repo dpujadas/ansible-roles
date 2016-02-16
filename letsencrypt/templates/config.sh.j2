@@ -1,0 +1,13 @@
+#!/bin/bash
+
+{% if letsencrypt_staging %}
+CA="https://acme-staging.api.letsencrypt.org/directory"
+{% else %}
+CA="https://acme-v01.api.letsencrypt.org/directory"
+{% endif %}
+
+CHALLENGETYPE="{{ letsencrypt_challenge_type }}"
+
+HOOK="./{{ letsencrypt_hook }}"
+
+CONTACT_EMAIL={{ letsencrypt_email }}

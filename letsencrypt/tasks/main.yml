@@ -1,2 +1,34 @@
 ---
 # tasks file for letsencrypt
+
+- name: Install pip boto3 package
+  pip:
+    name: 'boto3'
+    state: 'present'
+  tags:
+    - letsencrypt
+
+- name: Pull letsencrypt.sh sources from the repository
+  git:
+    accept_hostkey: 'yes'
+    repo: 'https://github.com/lukas2511/letsencrypt.sh.git'
+    dest: '{{ letsencrypt_dir }}'
+    version: '{{ letsencrypt_version }}'
+  tags:
+    - letsencrypt
+
+- name: Configure letsencrypt.sh
+  template:
+    src: 'config.sh.j2'
+    dest: '{{ letsencrypt_dir }}/config.sh'
+    mode: '0644'
+  tags:
+    - letsencrypt
+
+- name: Install provided hook scripts
+  copy: 
+    src: 'hooks/'
+    dest: '{{ letsencrypt_dir }}/'
+    mode: '0750'
+  tags:
+    - letsencrypt
