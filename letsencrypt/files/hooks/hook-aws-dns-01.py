@@ -88,6 +88,7 @@ def deploy_cert(args):
     cert_name = '{0}-{1}'.format(domain, time.strftime("%Y%m%d%H%M%S"))
 
     response = iam_client.upload_server_certificate(
+        Path='/cloudfront/',
         ServerCertificateName=cert_name,
         PrivateKey=privkey,
         CertificateBody=cert,
