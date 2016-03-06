@@ -4,3 +4,4 @@
 ansible_required_packages:
   - python-dev
   - python-pip
+  - python-boto
