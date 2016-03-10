@@ -7,7 +7,7 @@
 -A PREROUTING -p tcp -m tcp --dport {{ item.dport }} -j DNAT --to-destination {{ item.to_destination }}
 {% endfor %}
 {% if iptables_do_nat == True %}
--A POSTROUTING -s {{ iptables_masq_source }} -o eth0 -j MASQUERADE
+-A POSTROUTING {% if iptables_masq_source != '' %}-s {{ iptables_masq_source }} {% endif %}-o eth0 -j MASQUERADE
 {% endif %}
 COMMIT
 {% if iptables_do_filter == True %}
