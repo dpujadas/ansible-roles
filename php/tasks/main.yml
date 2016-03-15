@@ -26,5 +26,5 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: php_modules
+  with_items: '{{ php_modules }}'
   tags: [php,packages]

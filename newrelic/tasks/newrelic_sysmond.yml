@@ -5,7 +5,7 @@
   apt:
     name: '{{ item }}'
     state: 'present'
-  with_items: newrelic_sysmond_packages
+  with_items: '{{ newrelic_sysmond_packages }}'
   tags: [newrelic,newrelic-sysmond,packages]
 
 # Default nrsysmond file has no section at the beginning and ansible
@@ -25,7 +25,7 @@
     value: '{{ item.value }}'
     owner: 'newrelic'
     group: 'newrelic'
-  with_items: newrelic_sysmond_options
+  with_items: '{{ newrelic_sysmond_options }}'
   notify: Restart newrelic-sysmond
   tags: [newrelic,newrelic-sysmond,configuration]
 

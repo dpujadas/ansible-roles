@@ -10,7 +10,7 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: php_mod_packages
+  with_items: '{{ php_mod_packages }}'
   tags: [php,php-mod,packages]
 
 - name: Configure php_mod
@@ -19,6 +19,6 @@
     section: '{{ item.section }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
-  with_items: php_mod_options
+  with_items: '{{ php_mod_options }}'
   notify: Restart apache
   tags: [php,php-mod,configuration]

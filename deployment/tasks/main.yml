@@ -26,7 +26,7 @@
     owner: '{{ deployment_user }}'
     group: '{{ deployment_group }}'
     mode: '0775'
-  with_items: deployment_extra_dirs
+  with_items: '{{ deployment_extra_dirs }}'
   tags: [deployment]
 
 - name: Install some packages
@@ -34,14 +34,14 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: '{{ deployment_packages|union(deployment_extra_packages) }}'
+  with_items: '{{ deployment_packages + deployment_extra_packages }}'
   tags: [deployment,packages]
 
 - name: Add authorized keys
   authorized_key:
     user: '{{ deployment_user }}'
     key: '{{ item }}'
-  with_file: deployment_authorized_keys
+  with_file: '{{ deployment_authorized_keys }}'
   when: deployment_authorized_keys is defined
   tags: [deployment]
 

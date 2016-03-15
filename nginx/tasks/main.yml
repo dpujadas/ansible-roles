@@ -40,7 +40,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  with_items: nginx_confs
+  with_items: '{{ nginx_confs }}'
   notify: Restart nginx
   tags: [nginx,configuration]
 
@@ -61,7 +61,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  with_items: nginx_sites
+  with_items: '{{ nginx_sites }}'
   notify: Restart nginx
   tags: [nginx,configuration]
 

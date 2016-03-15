@@ -10,7 +10,7 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: php_fpm_packages
+  with_items: '{{ php_fpm_packages }}'
   tags: [php,php-fpm,packages]
 
 - name: Configure php_fpm
@@ -19,7 +19,7 @@
     section: '{{ item.section }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
-  with_items: php_fpm_options
+  with_items: '{{ php_fpm_options }}'
   notify: Restart php-fpm
   tags: [php,php-fpm,configuration]
 
@@ -29,7 +29,7 @@
     section: '{{ item.name }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
-  with_items: php_fpm_pool_options
+  with_items: '{{ php_fpm_pool_options }}'
   notify: Restart php-fpm
   tags: [php,php-fpm,configuration]
 

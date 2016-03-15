@@ -5,7 +5,7 @@
   apt:
     name: '{{ item }}'
     state: 'installed'
-  with_items: initial_setup_required_packages
+  with_items: '{{ initial_setup_required_packages }}'
   tags: [initial-setup,packages,hostname]
 
 - name: Set properly formatted hostname
@@ -88,7 +88,7 @@
     user: '{{ initial_setup_management_user }}'
     key: '{{ item }}'
     key_options: 'from="{{ initial_setup_management_from }}"'
-  with_file: initial_setup_management_public_key
+  with_file: '{{ initial_setup_management_public_key }}'
   tags: [initial-setup]
 
 - name: Install silence-unless-failed script
@@ -105,7 +105,7 @@
   args:
     creates: '{{ initial_setup_swap_file }}'
   when: initial_setup_create_swap or ((ec2_instance_type is defined) and (ec2_instance_type=='t2.micro'))
-  tags: [initial-setup]
+  tags: [initial-setup,swap]
 
 - name: Set default umask
   lineinfile:

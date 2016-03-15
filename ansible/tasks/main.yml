@@ -5,7 +5,7 @@
   apt:
     name: '{{ item }}'
     state: 'installed'
-  with_items: ansible_required_packages
+  with_items: '{{ ansible_required_packages }}'
   tags: [ansible,packages]
 
 - name: Install pip ansible package
