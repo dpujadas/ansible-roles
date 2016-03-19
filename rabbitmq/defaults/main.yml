@@ -1,2 +1,6 @@
 ---
 # defaults file for rabbitmq
+
+rabbitmq_enabled_plugins:
+  - 'rabbitmq_management'
+rabbitmq_users: []

@@ -30,6 +30,27 @@
   notify: Restart rabbitmq
   tags: [rabbitmq]
 
+- name: Manage users
+  rabbitmq_user:
+    configure_priv: '{{ item.configure_priv }}'
+    force: 'yes'
+    password: '{{ item.password }}'
+    read_priv: '{{ item.read_priv }}'
+    state: 'present'
+    user: '{{ item.user }}'
+    tags: '{{ item.tags }}'
+    vhost: '{{ item.vhost }}'
+    write_priv: '{{ item.write_priv }}'
+  with_items: '{{ rabbitmq_users }}'
+  tags: [rabbitmq]
+
+- name: Enable plugins
+  rabbitmq_plugin:
+    names: '{{ item }}'
+    state: 'enabled'
+  with_items: '{{ rabbitmq_enabled_plugins }}'
+  tags: [rabbitmq]
+
 - name: Ensure rabbitmq is started and enabled on boot
   service:
     name: 'rabbitmq-server'
