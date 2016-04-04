@@ -1,19 +1,32 @@
 ---
 # tasks file for apache
 
+- name: Include ondrej variables
+  include_vars: "ondrej.yml"
+  when: apache_use_ondrej
+  tags: [apache,apache-ondrej]
+
+- name: Install ondrej repo for latest Apache packages
+  apt_repository:
+    repo: '{{ item }}'
+  with_items: '{{ apache_ondrej_repo }}'
+  when: apache_use_ondrej
+  tags: [apache,apache-ondrej,packages]
+
 - name: Install apache packages
   apt:
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: apache_packages
+    force: 'yes'
+  with_items: '{{ apache_packages }}'
   tags: [apache,packages]
 
 - name: Enable apache modules
   apache2_module:
     name: '{{ item }}'
     state: 'present'
-  with_items: apache_mods_enabled
+  with_items: '{{ apache_mods_enabled }}'
   notify: Restart apache
   tags: [apache,configuration]
 
@@ -63,7 +76,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  with_items: apache_sites
+  with_items: '{{ apache_sites }}'
   notify: Reload apache
   tags: [apache,configuration]
 

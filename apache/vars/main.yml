@@ -1,2 +1,6 @@
 ---
 # vars file for apache
+
+apache_ondrej_repo:
+  - 'deb http://ppa.launchpad.net/ondrej/apache2/ubuntu {{ ansible_lsb.codename }} main'
+  - 'deb-src http://ppa.launchpad.net/ondrej/apache2/ubuntu {{ ansible_lsb.codename }} main'
