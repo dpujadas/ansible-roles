@@ -1,0 +1,5 @@
+php_ondrej_repo: 'ppa:ondrej/php'
+php_mod_packages:
+  - libapache2-mod-php7.0
+php_cli_packages:
+  - php7.0-cli

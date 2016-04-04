@@ -9,6 +9,8 @@ php_mod: false
 php_modules: []
 
 php_cli_options: []
+php_cli_packages:
+  - php5-cli
 
 php_fpm_options: []
 php_fpm_pool_options:
@@ -38,3 +40,5 @@ php_fpm_pool_options:
     value: '/'
 
 php_mod_options: []
+php_mod_packages:
+  - libapache2-mod-php5
