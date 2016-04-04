@@ -5,7 +5,7 @@
   filesystem:
     dev: '{{ item.device }}'
     fstype: '{{ item.type }}'
-  with_items: filesystem_fs
+  with_items: '{{ filesystem_fs }}'
   when: item.type != 'none'
   tags: [filesystem]
 
@@ -16,5 +16,5 @@
     fstype: '{{ item.type }}'
     opts: '{{ item.opts|default("defaults,nobootwait") }}'
     state: 'mounted'
-  with_items: filesystem_fs
+  with_items: '{{ filesystem_fs }}'
   tags: [filesystem]

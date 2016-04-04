@@ -5,7 +5,7 @@
   group:
     name: '{{ item.group | default(item.name) }}'
     state: 'present'
-  with_items: users_list
+  with_items: '{{ users_list }}'
   when: (item.state is undefined) or (item.state is defined and item.state != 'absent')
   tags: [users]
 
@@ -18,7 +18,7 @@
     shell: '{{ item.shell | default(omit) }}'
     home: '{{ item.home | default(omit) }}'
     createhome: '{{ item.createhome | default(omit) }}'
-  with_items: users_list
+  with_items: '{{ users_list }}'
   when: item.name is defined and item.name and item.name != 'root'
   tags: [users]
 
@@ -29,7 +29,7 @@
     owner: '{{ item.name }}'
     group: '{{ item.group | default(item.name) }}'
     mode: '0775'
-  with_items: users_list
+  with_items: '{{ users_list }}'
   when: item.home is defined and (item.chrooted is undefined or not item.chrooted)
   tags: [users]
 
@@ -40,6 +40,6 @@
     owner: 'root'
     group: 'root'
     mode: '0755'
-  with_items: users_list
+  with_items: '{{ users_list }}'
   when: item.home is defined and (item.chrooted is defined and item.chrooted)
   tags: [users]
