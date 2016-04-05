@@ -62,13 +62,10 @@
   tags: [initial-setup,apt]
 
 - name: Set the correct timezone
-  file:
-    src: '/usr/share/zoneinfo/{{ initial_setup_timezone }}'
-    dest: '/etc/localtime'
-    state: 'link'
-    force: 'yes'
+  shell: >
+    timedatectl set-timezone {{ initial_setup_timezone }}
   when: (initial_setup_timezone is defined) and (initial_setup_timezone)
-  tags: [initial-setup,ntp]
+  tags: [initial-setup]
 
 - name: Install ntp server
   apt:
