@@ -1,1 +1,6 @@
-php_ondrej_repo: 'ppa:ondrej/php5-5.6'
+php_ondrej_repo: 'ppa:ondrej/php'
+php_mod_packages:
+  - libapache2-mod-php5.6
+php_cli_packages:
+  - php5.6-cli
+php_cli_ini_file: '/etc/php/5.6/cli/php.ini'

@@ -11,6 +11,7 @@ php_modules: []
 php_cli_options: []
 php_cli_packages:
   - php5-cli
+php_cli_ini_file: '/etc/php5/cli/php.ini'
 
 php_fpm_options: []
 php_fpm_pool_options:
