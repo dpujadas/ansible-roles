@@ -2,5 +2,5 @@
 # defaults file for duplicity
 
 duplicity_user: 'root'
-duplicity_profiles: []
+duplicity_profiles: {}
 duplicity_archive_dir: ''

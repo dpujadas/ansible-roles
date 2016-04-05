@@ -5,21 +5,21 @@
   command: su {{ duplicity_user }} -c "duply {{ item.key }} create"
   args:
     creates: '~{{ duplicity_user }}/.duply/{{ item.key }}'
-  with_dict: duplicity_profiles
+  with_dict: '{{ duplicity_profiles }}'
   tags: [duplicity,duply-profile]
 
 - name: Configure duply profile
   template:
     dest: '~{{ duplicity_user }}/.duply/{{ item.key }}/conf'
     src: 'profile-conf.j2'
-  with_dict: duplicity_profiles
+  with_dict: '{{ duplicity_profiles }}'
   tags: [duplicity,duply-profile,configuration]
 
 - name: Setup exclude file
   template:
     dest: '~{{ duplicity_user }}/.duply/{{ item.key }}/exclude'
     src: 'profile-exclude.j2'
-  with_dict: duplicity_profiles
+  with_dict: '{{ duplicity_profiles }}'
   tags: [duplicity,duply-profile,configuration]
 
 - name: Setup cron job
@@ -29,5 +29,5 @@
     job: '/usr/local/bin/silence-unless-failed /usr/local/bin/duply {{ item.key }} backup_purge --force'
     special_time: '{{ item.value.cron }}'
     user: '{{ duplicity_user }}'
-  with_dict: duplicity_profiles
+  with_dict: '{{ duplicity_profiles }}'
   tags: [duplicity,duply-profile]
