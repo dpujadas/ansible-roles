@@ -5,7 +5,7 @@
   apt:
     name: '{{ item }}'
     state: 'present'
-  with_items: newrelic_packages
+  with_items: '{{ newrelic_packages }}'
   tags: [newrelic,newrelic-apm,packages]
 
 - name: Ensure configuration file exists (newrelic daemon needs it, even empty)
@@ -23,7 +23,7 @@
     section: '{{ item.section }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
-  with_items: newrelic_options
+  with_items: '{{ newrelic_options }}'
   notify: Restart newrelic
   tags: [newrelic,newrelic-apm,configuration]
 

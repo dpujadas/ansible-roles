@@ -5,7 +5,7 @@
   apt:
     name: '{{ item }}'
     state: 'present'
-  with_items: newrelic_php_packages
+  with_items: '{{ newrelic_php_packages }}'
   tags: [newrelic,newrelic-php,packages]
 
 # Default newrelic.ini file has no section at the beginning and ansible
@@ -24,7 +24,7 @@
     section: '{{ item.section }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
-  with_items: '{{ newrelic_php_default_options|union(newrelic_php_options) }}'
+  with_items: '{{ newrelic_php_default_options + newrelic_php_options }}'
   notify: '{{ newrelic_php_notify }}'
   tags: [newrelic,newrelic-php,configuration]
 
