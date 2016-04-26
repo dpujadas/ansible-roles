@@ -11,7 +11,7 @@ Role Variables
 * **newrelic_options:** List of ini directives (section / option / value) for daemon config file (default: empty list)
 * **newrelic_enabled:** Enable newrelic daemon at boot or not (default: 'yes')
 * **newrelic_state:** Newrelic daemon state (default: 'started')
-* **newrelic_php_notify:** Handler that will be notified when php agent config file changes (Ex: 'restart php-fpm')
+* **newrelic_php_notify:** List of handlers that will be notified when php agent config file changes (default: empty list)
 * **newrelic_php_options:** List of ini directives (section / option / value) for php agent config file (default: empty list)
 * **newrelic_sysmond_install:** Install newrelic_sysmond or not (default: false)
 * **newrelic_sysmond_loglevel:** Sysmond's log level (default: 'info')

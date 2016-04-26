@@ -6,6 +6,7 @@ newrelic_enabled: 'yes'
 newrelic_options: []
 
 newrelic_php_options: []
+newrelic_php_notify: []
 
 newrelic_sysmond_install: false
 newrelic_sysmond_loglevel: 'info'
