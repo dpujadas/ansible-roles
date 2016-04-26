@@ -5,7 +5,7 @@
   apt:
     name: '{{ item }}'
     state: 'installed'
-  with_items: elasticsearch_required_packages
+  with_items: '{{ elasticsearch_required_packages }}'
   tags: [elasticsearch,packages]
 
 - name: Add elasticsearch apt key
@@ -33,7 +33,7 @@
     section: '{{ item.section }}'
     option: '{{ item.option }}'
     value: '{{ item.value }}'
-  with_items: elasticsearch_default_options
+  with_items: '{{ elasticsearch_default_options }}'
   notify: Restart elasticsearch
   tags: [elasticsearch,configuration]
 

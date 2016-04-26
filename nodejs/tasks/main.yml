@@ -13,7 +13,7 @@
     state: 'present'
     repo: '{{ item }}'
     update_cache: 'yes'
-  with_items: nodejs_nodesource_repos
+  with_items: '{{ nodejs_nodesource_repos }}'
   when: nodejs_use_nodesource
   tags: [nodejs,packages]
 
@@ -22,7 +22,7 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: nodejs_packages
+  with_items: '{{ nodejs_packages }}'
   when: not nodejs_use_nodesource
   tags: [nodejs,packages]
 
@@ -31,7 +31,7 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: nodejs_nodesource_packages
+  with_items: '{{ nodejs_nodesource_packages }}'
   when: nodejs_use_nodesource
   tags: [nodejs,packages]
 
@@ -40,7 +40,7 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: nodejs_modules
+  with_items: '{{ nodejs_modules }}'
   tags: [nodejs,packages]
 
 - name: Install the npm packages
@@ -48,5 +48,5 @@
     name: '{{ item }}'
     state: 'present'
     global: 'yes'
-  with_items: nodejs_npm_packages
+  with_items: '{{ nodejs_npm_packages }}'
   tags: [nodejs,packages]

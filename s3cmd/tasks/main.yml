@@ -6,7 +6,7 @@
     name: '{{ item }}'
     state: 'present'
     update_cache: 'yes'
-  with_items: s3cmd_packages
+  with_items: '{{ s3cmd_packages }}'
   tags: [s3cmd,packages]
 
 - name: Configure s3cmd
