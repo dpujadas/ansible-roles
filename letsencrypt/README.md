@@ -20,6 +20,8 @@ Role Variables
 * **letsencrypt_challenge_type:** Which challenge type to use (currently only http-01 or dns-01) (default: 'dns-01')
 * **letsencrypt_hook:** Name of hook script (default: 'hook-aws-{{ letsencrypt_challenge_type }}.py')
 * **letsencrypt_email:** Email to regiser with letsencrypt.org
+* **letsencrypt_key:** Content for private_key.pem file (default: '')
+* **letsencrypt_set_cron:** Setup daily cron job or not (default: false)
 
 Example Playbook
 ----------------

@@ -79,7 +79,7 @@ def file_get_contents(filename):
 
 
 def deploy_cert(args):
-    domain, privkey_pem, cert_pem, fullchain_pem = args
+    domain, privkey_pem, cert_pem, fullchain_pem, time_stamp = args
 
     privkey = file_get_contents(privkey_pem)
     cert = file_get_contents(cert_pem)

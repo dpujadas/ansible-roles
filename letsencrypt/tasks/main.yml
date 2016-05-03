@@ -32,3 +32,22 @@
     mode: '0750'
   tags:
     - letsencrypt
+
+- name: Set account key
+  template:
+    src: 'private_key.pem.j2'
+    dest: '{{ letsencrypt_dir }}/private_key.pem'
+    mode: '0600'
+  when: letsencrypt_key != ''
+  tags:
+    - letsencrypt
+
+- name: Set cron job
+  cron:
+    name: 'LetsEncrypt daily check'
+    state: 'present'
+    job: '{{ letsencrypt_dir }}/letsencrypt.sh -c'
+    special_time: 'daily'
+  when: letsencrypt_set_cron
+  tags:
+    - letsencrypt
