@@ -1,0 +1,7 @@
+---
+# defaults file for cloudwatch-put
+
+cloudwatch_put_path: '/opt'
+cloudwatch_put_set_cron: false
+cloudwatch_put_aws_bin: '/usr/local/bin/aws'
+cloudwatch_put_opts: ''

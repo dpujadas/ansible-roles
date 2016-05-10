@@ -1,0 +1,29 @@
+---
+# tasks file for cloudwatch-put
+
+- name: Install cw-put script
+  template: 
+    src: 'cw-put.sh.j2'
+    dest: '{{ cloudwatch_put_exec }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0700'
+  register: cloudwatch_put_install
+  tags:
+    - cloudwatch-put
+
+- name: Verify config
+  shell: >
+    {{ cloudwatch_put_exec }} --mem-util --verify
+  when: cloudwatch_put_install.changed
+  tags:
+    - cloudwatch-put
+
+- name: Setup cron
+  cron:
+    name: 'CloudWatch put metrics'
+    state: 'present'
+    job: '{{ cloudwatch_put_exec }} {{ cloudwatch_put_opts }} --from-cron'
+  when: cloudwatch_put_set_cron
+  tags:
+    - cloudwatch-put

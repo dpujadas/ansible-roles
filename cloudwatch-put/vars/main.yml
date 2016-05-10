@@ -1,0 +1,4 @@
+---
+# vars file for cloudwatch-put
+
+cloudwatch_put_exec: '{{ cloudwatch_put_path }}/cw-put.sh'
