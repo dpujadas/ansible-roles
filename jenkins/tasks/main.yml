@@ -1,6 +1,12 @@
 ---
 # tasks file for jenkins
 
+- name: Install required packages
+  apt:
+    name: 'openjdk-7-jre-headless'
+    state: 'installed'
+  tags: [jenkins,packages]
+
 - name: Add jenkins apt key
   apt_key:
     url: '{{ jenkins_url_key }}'
@@ -14,11 +20,38 @@
     update_cache: 'yes'
   tags: [jenkins,packages]
 
+- name: Prevent jenkins to start on install
+  copy:
+    src: 'policy-rc.d'
+    dest: '/usr/sbin/policy-rc.d'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  tags: [jenkins]
+
 - name: Install jenkins
   apt:
     name: 'jenkins'
     state: 'present'
   tags: [jenkins,packages]
+
+- name: Remove policy-rc.d
+  file:
+    name: '/usr/sbin/policy-rc.d'
+    state: 'absent'
+  tags: [jenkins]
+
+- name: Ensure some dirs exist and belong to {{ jenkins_user }}
+  file:
+    dest: '{{ item }}'
+    state: 'directory'
+    owner: '{{ jenkins_user }}'
+    group: '{{ jenkins_group }}'
+    mode: '0775'
+  with_items:
+    - '{{ jenkins_log_dir }}'
+    - '{{ jenkins_cache_dir }}'
+  tags: [jenkins]
 
 - name: Configure jenkins {{ jenkins_conf_file }}
   template:

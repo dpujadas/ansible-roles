@@ -14,14 +14,14 @@ JAVA_ARGS="-Djava.awt.headless=true"  # Allow graphs etc. to work even when an X
 PIDFILE=/var/run/$NAME/$NAME.pid
 
 # user and group to be invoked as (default to jenkins)
-JENKINS_USER=$NAME
-JENKINS_GROUP=$NAME
+JENKINS_USER={{ jenkins_user }}
+JENKINS_GROUP={{ jenkins_group }}
 
 # location of the jenkins war file
 JENKINS_WAR=/usr/share/$NAME/$NAME.war
 
 # jenkins home location
-JENKINS_HOME=/var/lib/$NAME
+JENKINS_HOME={{ jenkins_home }}
 
 # set this to false if you don't want Hudson to run by itself
 # in this set up, you are expected to provide a servlet container
@@ -29,7 +29,7 @@ JENKINS_HOME=/var/lib/$NAME
 RUN_STANDALONE=true
 
 # log location.  this may be a syslog facility.priority
-JENKINS_LOG=/var/log/$NAME/$NAME.log
+JENKINS_LOG={{ jenkins_log_dir }}/$NAME.log
 #JENKINS_LOG=daemon.info
 
 # OS LIMITS SETUP
@@ -72,4 +72,4 @@ PREFIX=/$NAME
 # --webroot=~/.jenkins/war
 # --prefix=$PREFIX
 
-JENKINS_ARGS="--webroot=/var/cache/$NAME/war --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT"
+JENKINS_ARGS="--webroot={{ jenkins_cache_dir }}/war --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT"

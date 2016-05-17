@@ -4,3 +4,5 @@
 jenkins_url_key: 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
 jenkins_apt_repo: 'deb http://pkg.jenkins-ci.org/debian binary/'
 jenkins_conf_file: '/etc/default/jenkins'
+jenkins_log_dir: '/var/log/jenkins'
+jenkins_cache_dir: '/var/cache/jenkins'

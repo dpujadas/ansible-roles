@@ -1,2 +1,6 @@
 ---
 # defaults file for jenkins
+
+jenkins_user: '$NAME'
+jenkins_group: '$NAME'
+jenkins_home: '/var/lib/$NAME'
