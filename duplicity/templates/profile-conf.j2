@@ -7,5 +7,9 @@ SOURCE='{{ item.value.source }}'
 MAX_AGE={{ item.value.max_age }}
 MAX_FULLBKP_AGE={{ item.value.max_fullbkp_age }}
 DUPL_PARAMS="$DUPL_PARAMS --full-if-older-than $MAX_FULLBKP_AGE "
+{% if duplicity_aws_user != '' %}
 export AWS_ACCESS_KEY_ID='{{ duplicity_aws_user }}'
+{% endif %}
+{% if duplicity_aws_pass != '' %}
 export AWS_SECRET_ACCESS_KEY='{{ duplicity_aws_pass }}'
+{% endif %}

@@ -4,3 +4,5 @@
 duplicity_user: 'root'
 duplicity_profiles: {}
 duplicity_archive_dir: ''
+duplicity_aws_user: ''
+duplicity_aws_pass: ''
