@@ -4,3 +4,6 @@
 awscli_setup_config: True
 awscli_user: 'ubuntu'
 awscli_group: 'ubuntu'
+awscli_aws_access_key_id: ''
+awscli_aws_secret_access_key: ''
+awscli_region: ''
