@@ -1,5 +1,5 @@
 ---
 # vars file for rabbitmq
 
-rabbitmq_url_key: 'https://www.rabbitmq.com/rabbitmq-signing-key-public.asc'
+rabbitmq_url_key: 'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc'
 rabbitmq_apt_repo: 'deb http://www.rabbitmq.com/debian/ testing main'
