@@ -70,3 +70,10 @@
     state: 'started'
     enabled: 'yes'
   tags: [elasticsearch,services]
+
+- name: Wait for elasticsearch up & running
+  wait_for:
+    port: '{{ elasticsearch_http_port }}'
+    timeout: '30'
+  when: elasticsearch_wait_for
+  tags: [elasticsearch,services]

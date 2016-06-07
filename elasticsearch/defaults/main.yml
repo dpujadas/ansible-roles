@@ -5,3 +5,5 @@ elasticsearch_node_name: '{{ inventory_hostname }}'
 elasticsearch_major_version: '1.7'
 elasticsearch_default_options: []
 elasticsearch_install_plugins: []
+elasticsearch_http_port: '9200'
+elasticsearch_wait_for: True
