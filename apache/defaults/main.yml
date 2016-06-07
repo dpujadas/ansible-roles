@@ -9,6 +9,7 @@ apache_packages:
   - apache2-utils
 apache_mods_enabled: []
 apache_sites: []
+apache_confs: []
 apache_auth_users: []
 apache_listen_port: '80'
 apache_use_ondrej: False
