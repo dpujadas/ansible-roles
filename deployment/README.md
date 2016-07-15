@@ -18,6 +18,7 @@ Role Variables
 * **deployment_type_php:** Indicates if the deployment environment uses PHP in order to include php-related stuff (default: false).
 * **deployment_github_token:** If set, will be used by composer to download code from Github.
 * **deployment_use_php_fpm:** Indicates if server is using php-fpm (default: false)
+* **deployment_php_service:** php-fpm service name (default: 'php5-fpm')
 
 Example Playbook
 ----------------
