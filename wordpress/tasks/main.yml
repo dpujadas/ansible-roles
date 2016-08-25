@@ -1,0 +1,41 @@
+---
+# tasks file for wordpress
+
+- name: Include locale vars
+  include_vars: '{{ wordpress_locale }}.yml'
+  tags:
+    - wordpress
+
+- name: Uncompress WordPress
+  unarchive:
+    copy: 'no'
+    dest: '{{ wordpress_dir }}'
+    group: '{{ wordpress_group }}'
+    owner: '{{ wordpress_owner }}'
+    src: '{{ wordpress_url }}'
+  tags:
+    - wordpress
+
+- name: Fetch random salts for WordPress config
+  shell: >
+    curl https://api.wordpress.org/secret-key/1.1/salt/
+  register: 'wordpress_salt_cmd'
+  when: wordpress_salt == ''
+  tags:
+    - wordpress
+
+- name: Set wordpress_salt fact
+  set_fact:
+    wordpress_salt: '{{ wordpress_salt_cmd.stdout }}'
+  when: wordpress_salt == ''
+  tags:
+    - wordpress
+
+- name: Generate WordPress config file
+  template:
+    dest: '{{ wordpress_dir }}/wordpress/wp-config.php'
+    group: '{{ wordpress_group }}'
+    owner: '{{ wordpress_owner }}'
+    src: 'wp-config.php.j2'
+  tags:
+    - wordpress

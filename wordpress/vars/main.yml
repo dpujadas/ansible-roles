@@ -1,0 +1,4 @@
+---
+# vars file for wordpress
+
+wordpress_url: 'https://{{ wordpress_subdomain }}wordpress.org/wordpress-{{ wordpress_version }}{{ wordpress_language }}.tar.gz'

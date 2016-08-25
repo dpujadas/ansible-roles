@@ -1,0 +1,11 @@
+---
+# defaults file for wordpress
+
+wordpress_group: '{{ wordpress_owner }}'
+wordpress_locale: 'en'
+wordpress_version: '4.4.2'
+
+wordpress_salt: ''
+wordpress_db_charset: 'utf8'
+wordpress_db_collate: ''
+wordpress_table_prefix: 'wp_'
