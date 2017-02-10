@@ -4,3 +4,4 @@ php_mod_packages:
 php_cli_packages:
   - php7.0-cli
 php_cli_ini_file: '/etc/php/7.0/cli/php.ini'
+php_mod_ini_file: '/etc/php/7.0/apache2/php.ini'

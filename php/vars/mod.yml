@@ -1,4 +1,2 @@
 ---
 # vars file for php_mod
-
-php_mod_ini_file: '/etc/php5/apache2/php.ini'
