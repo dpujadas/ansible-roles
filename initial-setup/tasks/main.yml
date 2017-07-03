@@ -46,6 +46,7 @@
     overwrite: 'true'
     aws_access_key: '{{ initial_setup_aws_access_key }}'
     aws_secret_key: '{{ initial_setup_aws_secret_key }}'
+    private_zone: True
   when: initial_setup_create_dns_record
   tags: [initial-setup,hostname]
 
