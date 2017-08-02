@@ -105,6 +105,14 @@
   when: initial_setup_create_swap or ((ec2_instance_type is defined) and (ec2_instance_type=='t2.micro'))
   tags: [initial-setup,swap]
 
+- name: Make swap survive reboots
+  lineinfile:
+    dest: '/etc/fstab'
+    regexp: '^{{ initial_setup_swap_file }} none swap sw 0 0$'
+    line: '{{ initial_setup_swap_file }} none swap sw 0 0'
+  when: initial_setup_create_swap or ((ec2_instance_type is defined) and (ec2_instance_type=='t2.micro'))
+  tags: [initial-setup,swap]
+
 - name: Set default umask
   lineinfile:
     dest: '/etc/login.defs'
